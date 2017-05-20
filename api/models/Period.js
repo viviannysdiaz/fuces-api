@@ -6,9 +6,23 @@
  */
 
 module.exports = {
-
+  schema: true,
   attributes: {
+    name: {
+      type: 'string',
+      required: true
+    },
+    status: {
+      type: 'boolean',
+      defaultsTo: true
+    },
+    finish_date: {
+      type: 'date'
+    },
 
+    // Add a reference to User
+    course: {
+      model: 'course'
+    }
   }
 };
-

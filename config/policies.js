@@ -34,6 +34,10 @@ module.exports.policies = {
 
   'AuthController': {
     '*': true // We dont need authorization here, allowing public access
+  },
+
+  'CourseController': {
+    '*': true // We dont need authorization here, allowing public access
   }
   /***************************************************************************
   *                                                                          *

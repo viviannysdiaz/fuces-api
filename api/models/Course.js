@@ -8,7 +8,15 @@
 module.exports = {
   schema: true,
   attributes: {
-    name: {
+    title: {
+      type: 'string',
+      required: true
+    },
+    subtitle: {
+      type: 'string',
+      required: true
+    },
+    slug: {
       type: 'string',
       required: true
     },
@@ -23,6 +31,16 @@ module.exports = {
     instructor: {
       type: 'string',
       required: true
+    },
+    hours: {
+      type: 'integer',
+      required: true
+    },
+
+    // Add a reference to Period
+    periods: {
+      collection: 'period',
+      via: 'course'
     }
   }
 };
