@@ -79,6 +79,12 @@ module.exports.http = {
 
   },
 
+  bodyParser: function(){
+    var opts = {
+      limit:'10mb'
+    }
+   return require('./../node_modules/sails/node_modules/skipper')(opts);
+  }
   /***************************************************************************
   *                                                                          *
   * The number of seconds to cache flat files on disk being served by        *
