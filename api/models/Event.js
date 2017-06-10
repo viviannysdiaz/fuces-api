@@ -71,4 +71,26 @@ module.exports = {
       next();
     });
   },
+  beforeUpdate : function (values, next) {
+    var uuid = uuidV4();
+    if (values.image == null) {
+      sails.log('sin foto');
+    }
+    var dir = '.tmp/public/images';
+    if (!fs.existsSync(dir)){
+      if (!fs.existsSync('.tmp/public')){
+        fs.mkdirSync('.tmp/public');
+      }
+      fs.mkdirSync('.tmp/public/images');
+    }
+    var buff = new Buffer(values.image.replace(/^data:image\/(png|gif|jpeg);base64,/,''), 'base64');
+    fs.writeFile('.tmp/public/images/'+ uuid, buff, function (err) {
+      if(err) {
+          sails.log(err)
+          next();
+      }
+      values.image = '/images/' + uuid;
+      next();
+    });
+  },
 };
