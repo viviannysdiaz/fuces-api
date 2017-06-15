@@ -5,6 +5,9 @@
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
 
+var fs      = require('fs');
+const uuidV4 = require('uuid/v4');
+
 module.exports = {
   schema: true,
   attributes: {
@@ -36,11 +39,38 @@ module.exports = {
       type: 'integer',
       required: true
     },
+    toJSON: function () {
+      var obj = this.toObject();
+      obj.image = sails.config.urls.url_local + obj.image;
+      return obj;
+    },
 
     // Add a reference to Period
     periods: {
       collection: 'period',
       via: 'course'
     }
+  },
+  beforeCreate : function (values, next) {
+    var uuid = uuidV4();
+    if (values.image == null) {
+      sails.log('sin foto');
+    }
+    var dir = '.tmp/public/images';
+    if (!fs.existsSync(dir)){
+      if (!fs.existsSync('.tmp/public')){
+        fs.mkdirSync('.tmp/public');
+      }
+      fs.mkdirSync('.tmp/public/images');
+    }
+    var buff = new Buffer(values.image.replace(/^data:image\/(png|gif|jpeg);base64,/,''), 'base64');
+    fs.writeFile('.tmp/public/images/'+ uuid, buff, function (err) {
+      if(err) {
+          sails.log(err)
+          next();
+      }
+      values.image = '/images/' + uuid;
+      next();
+    });
   }
 };
