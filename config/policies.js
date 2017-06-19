@@ -42,6 +42,10 @@ module.exports.policies = {
 
   'EventController': {
     '*': true // We dont need authorization here, allowing public access
+  },
+
+  'MessageController': {
+    '*': true // We dont need authorization here, allowing public access
   }
   /***************************************************************************
   *                                                                          *
