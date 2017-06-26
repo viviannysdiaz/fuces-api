@@ -8,21 +8,29 @@
 module.exports = {
   schema: true,
   attributes: {
-    name: {
-      type: 'string',
-      required: true
+    description: {
+      type: 'string'
     },
     status: {
       type: 'boolean',
       defaultsTo: true
     },
-    finish_date: {
-      type: 'date'
+    start_date: {
+      type: 'date',
+      required: true
     },
-
+    finish_date: {
+      type: 'date',
+      required: true
+    },
     // Add a reference to User
     course: {
       model: 'course'
+    },
+    // Add a reference to User
+    students: {
+      collection: 'student',
+      via: 'period'
     }
   }
 };

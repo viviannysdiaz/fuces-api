@@ -8,7 +8,42 @@
 module.exports = {
 
   attributes: {
-
+    name: {
+      type: 'string',
+      required: true
+    },
+    email: {
+      type: 'string',
+      required: true
+    },
+    phone: {
+      type: 'string',
+      required: true
+    },
+    country: {
+      type: 'string',
+      required: true
+    },
+    state: {
+      type: 'string',
+      required: true
+    },
+    city: {
+      type: 'string',
+      required: true
+    },
+    address: {
+      type: 'string'
+    },
+    organization: {
+      type: 'string'
+    },
+    leader_organization: {
+      type: 'string'
+    },
+    // Add a reference to User
+    period: {
+      model: 'period'
+    },
   }
 };
-

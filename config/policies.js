@@ -46,6 +46,10 @@ module.exports.policies = {
 
   'MessageController': {
     '*': true // We dont need authorization here, allowing public access
+  },
+
+  'PeriodController': {
+    '*': true // We dont need authorization here, allowing public access
   }
   /***************************************************************************
   *                                                                          *
