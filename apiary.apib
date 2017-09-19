@@ -1,0 +1,3173 @@
+FORMAT: 1A
+HOST: http://localhost:3000/api/
+
+# Flaxpro API
+
+Flaxpro API for mobile app.
+
+## Allowed HTTPs requests
+
++ PUT     : Update resource
++ POST    : To create resource  
++ GET     : Get a resource or list of resources
++ DELETE  : To delete resource
+
+## Description Of Usual Server Responses
+
++ 200 OK - the request was successful (some API calls may return 201 instead).
++ 201 Created - the request was successful and a resource was created.
++ 204 No Content - the request was successful but there is no representation to return (i.e. the response is empty).
++ 400 Bad Request - the request could not be understood or was missing required parameters.
++ 401 Unauthorized - authentication failed or user doesn't have permissions for requested operation.
++ 403 Forbidden - access denied.
++ 404 Not Found - resource was not found.
++ 405 Method Not Allowed - requested method is not supported for resource.
++ 422 Unprocessable Entity - the request was well-formed but was unable to be followed due to semantic errors.
+
+## Group Authentication
+
+## Registrations [/auth/register]
+
+### Register a new user [POST]
+
+Create new users in the platform. It takes a JSON object containing the user information.
+
++ Attributes
+    + email (required, string) - Email of the user in the form of a string
+    + password (required, string) - Password of the user in the form of a string
+    + isProfessional (boolean, optional)  - Set this parameter to true if the user will be registered as a Professional
+    
+
++ Request (application/json)
+
+        {
+            "email": "user@flaxpro.ca",
+            "password": "123456"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "token": "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0",
+            "refreshToken": "594bdcd99b1bb62cf5789fea.872a3618f1e010f97c11453c40e21d158dcea1173d2bb762f4e53eb8c7acafa8ab8ea7271ca6043e",
+            "user": {
+                "_id": "594bdcd99b1bb62cf5789fea",
+                "email": "user@flaxpro.ca",
+                "role": "Client"
+            }
+        }
+
++ Response 422 (application/json)
+
+        {
+            "error": "You must enter an email address."
+        }
+
++ Response 422 (application/json)
+
+        {
+            "error": "You must enter a password."
+        }
+
+## Authentication [/auth/login]
+
+### Login user [POST]
+
+Login a user with a valid credentials. Returns session data and the user information if exist.
+
++ Attributes
+    + email (required, string) - Email of the user in the form of a string
+    + password (required, string) - Password of the user in the form of a string
+
+
++ Request (application/json)
+
+        {
+            "email": "user@flaxpro.ca",
+            "password": "123456"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "token": "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTUzY2Q5MDEzYTdlMDQ4MjIwZmZmN2EiLCJlbWFpbCI6ImNsaWVudEBlbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNTAxMDg4NzE4LCJleHAiOjE1MDEwODkzMTh9.czMOdRDPl18ULbM-lbuc7gyM803BaT5fBzQ3E_-kmsE",
+            "refreshToken": "5953cd9013a7e048220fff7a.aa456eb04adbdbc4eefc707bc7e8a0bf0df375e44310b51200d9d0cde592e18f42eec263da6324f4",
+            "user": {
+            "professions": [
+                {
+                    "_id": "5954045daf7fdf088428a108"
+                }
+            ],
+            "location": {
+                "originalAddress": "40 York st, Toronto",
+                "country": "Canada",
+                "city": "Toronto",
+                "lon": -79.3827237,
+                "lat": 43.6455358
+            },
+            "__v": 0,
+            "user": "5953cd9013a7e048220fff7a",
+            "description": "",
+            "avatar": "",
+            "age": 33,
+            "visibility": true,
+            "phone": "123456789",
+            "gender": "Male",
+            "name": "John Doe",
+            "createdAt": "2017-06-28T15:39:21.958Z",
+            "updatedAt": "2017-06-28T19:32:45.985Z",
+            "_id": "5953cda913a7e048220fff7b",
+            "email": "user@flaxpro.com",
+            "role": "Client",
+            "totalSessions": 56,
+            "coordinate": {
+                "latitude": 43.6455358,
+                "longitude": -79.3827237
+            }
+        }
+    
+
++ Response 401 (application/json)
+
+        {
+            "error": "Invalid username and password"
+        }
+
+## Refresh Token [/auth/refresh/{refresh_token}]
+
+### Refres token [POST]
+
+Returns session data and the user information if exist.
+
++ Parameters
+    + refresh_token (required, string) - Refresh token received in login
+
++ Request
+    + Headers
+
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
+
++ Response 200 (application/json)
+
+        {
+            "token": "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTUzY2Q5MDEzYTdlMDQ4MjIwZmZmN2EiLCJlbWFpbCI6ImNsaWVudEBlbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNTAxMDg5MzU0LCJleHAiOjE1MDEwODk5NTR9.pcLNSnGE0jkwV_YtGfH3NBW8lIBGzWK2pSTUN_MiKbI",
+            "refreshToken": "5953cd9013a7e048220fff7a.aa456eb04adbdbc4eefc707bc7e8a0bf0df375e44310b51200d9d0cde592e18f42eec263da6324f4",
+            "user": {
+                "professions": [
+                    {
+                        "_id": "5954045daf7fdf088428a108"
+                    }
+                ],
+                "location": {
+                    "originalAddress": "40 York st, Toronto",
+                    "country": "Canada",
+                    "city": "Toronto",
+                    "lon": -79.3827237,
+                    "lat": 43.6455358
+                },
+                "__v": 0,
+                "user": "5953cd9013a7e048220fff7a",
+                "description": "",
+                "avatar": "",
+                "age": 33,
+                "visibility": true,
+                "phone": "123456789",
+                "gender": "Male",
+                "name": "John Doe",
+                "createdAt": "2017-06-28T15:39:21.958Z",
+                "updatedAt": "2017-06-28T19:32:45.985Z",
+                "_id": "5953cda913a7e048220fff7b",
+                "email": "user@flaxpro.ca",
+                "role": "Client",
+                "totalSessions": 56,
+                "coordinate": {
+                    "latitude": 43.6455358,
+                    "longitude": -79.3827237
+                }
+            }
+        }
+    
+
++ Response 401 (application/json)
+
+        {
+            "error": "Unable to refresh the token based on the info provided"
+        }
+
+## Request Forgot Password [/auth/forgot-password]
+
+### Forgot Password [POST]
+
+Send a link to the email to recover the password.
+
++ Attributes
+    + email (required, string) - Email of the user in the form of a string
+
++ Request (application/json)
+
+        {
+            "email": "user@flaxpro.ca"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "message": "Please check your email for the link to reset your password."
+        }
+        
+
++ Response 422 (application/json)
+
+        {
+            "error": "Your request could not be processed as entered. Please try again."
+        }
+
+## Reset Password [/auth/reset-password/{reset_password}]
+
+### Reset Password [POST]
+
+Reset user password.
+
++ Attributes
+    + password (required, string) - Password of the user in the form of a string
+
++ Request (application/json)
+
+        {
+            "password": "123456"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "message": "Password changed successfully. Please login with your new password."
+        }
+        
+
++ Response 422 (application/json)
+
+        {
+            "error": "Your token is invalid or has expired. Please attempt to reset your password again."
+        }
+
+## Update Password [/auth/update-password]
+
+### Update Password [POST]
+
+Update user password.
+
++ Attributes
+    + password (required, string) - Password of the user in the form of a string
+
++ Request (application/json)
+
+        {
+            "password": "654321"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "message": "Password changed successfully."
+        }
+        
+
++ Response 302 (application/json)
+
+        {
+            "message": "Please enter new password"
+        }
+
+## Group Client
+
+## Client Collection [/clients]
+
+### Create a client [POST]
+
+Create the client information that belong to the current logged user.
+
++ Request (application/json)
+
+        {
+            "name": "John Doe",
+            "gender": "Male",
+            "phone": "123456789" ,
+            "visibility": true ,
+            "age": 33,
+            "address": "40 York st, Toronto",
+            "avatar": "avatar" ,
+            "description": "description",
+            "professions": [{
+                "profession": "595275f6dd401537cb7f989b",
+                "priceLevel": 2
+            }]
+        }
+
++ Response 200 (application/json)
+
+        {
+            "user": {
+                "professions": [
+                    {
+                        "profession": "595275f6dd401537cb7f989b",
+                        "priceLevel": "2",
+                        "_id": "5978e86f8eb2f4284add8873"
+                    }
+                ],
+                "location": {
+                    "originalAddress": "40 York st, Toronto",
+                    "country": "Canada",
+                    "city": "Toronto",
+                    "lon": -79.3827237,
+                    "lat": 43.6455358
+                },
+                "_id": "5978e86f8eb2f4284add8872",
+                "user": "593129785dcc9118692fec80",
+                "description": "",
+                "avatar": "",
+                "age": 33,
+                "visibility": true,
+                "phone": "123456789",
+                "gender": "Male",
+                "name": "John Doe",
+                "createdAt": "2017-07-26T19:07:27.581Z",
+                "updatedAt": "2017-07-26T19:07:27.581Z",
+                "__v": 0,
+                "email": "user@flaxpro.ca",
+                "role": "Client",
+                "totalSessions": 0,
+                "coordinate": {
+                    "latitude": 43.6455358,
+                    "longitude": -79.3827237
+                }
+            }
+        }
+      
+
+### List all clients [GET]
+
+Get a list of client.
+
++ Request
+    + Headers
+
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
+
++ Response 200 (application/json)
+
+        {
+            "clients": [
+                {
+                    "_id": "591480277d1a9d1336fa02e1",
+                    "user": "5952b95f18a83e0941ca19d2",
+                    "name": "client test man,85,visible,300$,chiro",
+                    "gender": "Male",
+                    "age": 85,
+                    "price": "0",
+                    "priceLevel": 0,
+                    "rating": 0,
+                    "professions": [],
+                    "role": "Client",
+                    "coordinate": {
+                        "latitude": 43.6937013,
+                        "longitude": -79.4591847
+                    }
+                },
+                {
+                    "_id": "5914836639114f1374a90f4a",
+                    "user": "590c446cd5ce31c8a2917ebb",
+                    "name": "11111111111111",
+                    "gender": "Male",
+                    "age": 85,
+                    "price": "0",
+                    "priceLevel": 0,
+                    "rating": 0,
+                    "professions": [],
+                    "role": "Client",
+                    "coordinate": {
+                        "latitude": 43.7000248,
+                        "longitude": -79.3775586
+                    }
+                }
+            ]
+        }
+
+## Client [/clients/{client_id}]
+
+### Get a client [POST]
+
+A single Client object with all its details
+
++ Parameters
+    + client_id (required, string) - Client Id
+
+
++ Request
+    + Headers
+
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
+
++ Response 200 (application/json)
+
+        {
+            "user": {
+                "professions": [],
+                "location": {
+                    "countary": "Canada",
+                    "city": "Toronto",
+                    "lon": -79.4591847,
+                    "lat": 43.6937013
+                },
+                "__v": 0,
+                "schedules": [],
+                "priceLevel": "3",
+                "age": 85,
+                "gender": "Male",
+                "visibility": true,
+                "name": "client test man,85,visible,300$,chiro",
+                "user": "5952b95f18a83e0941ca19d2",
+                "createdAt": "2017-05-11T15:15:51.958Z",
+                "updatedAt": "2017-05-17T09:28:54.508Z",
+                "_id": "591480277d1a9d1336fa02e1",
+                "address": {
+                    "formattedAddress": "2140 Eglinton Ave W, York, ON M6E 2K8, Canada",
+                    "latitude": 43.6938527,
+                    "longitude": -79.4593029,
+                    "extra": {
+                        "googlePlaceId": "ChIJPQBVqPozK4gRHbcdADPuzlc",
+                        "confidence": 1,
+                        "premise": null,
+                        "subpremise": null,
+                        "neighborhood": "Eglinton West",
+                        "establishment": null
+                    },
+                    "administrativeLevels": {
+                        "level2long": "Toronto Division",
+                        "level2short": "Toronto Division",
+                        "level1long": "Ontario",
+                        "level1short": "ON"
+                    },
+                    "streetNumber": "2140",
+                    "streetName": "Eglinton Avenue West",
+                    "city": "Toronto",
+                    "country": "Canada",
+                    "countryCode": "CA",
+                    "zipcode": "M6E 2K8",
+                    "provider": "google"
+                },
+                "totalSessions": 6,
+                "role": "Client"
+            }
+        }
+      
+
+### Update a client [PUT]
+
+Update a single Client object.
+
++ Parameters
+    + client_id (required, string) - Client Id
+
+
++ Request
+    + Headers
+
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Request (application/json)
+
+        {
+            "name": "John Doe",
+            "gender": "Male",
+            "phone": "123456789" ,
+            "visibility": true ,
+            "age": 33,
+            "address": "40 York st, Toronto",
+            "avatar": "avatar" ,
+            "description": "description",
+            "professions": [{
+                "profession": "595275f6dd401537cb7f989b",
+                "priceLevel": 2
+            }]
+        }
+
++ Response 200 (application/json)
+
+        {
+            "user": {
+                "professions": [],
+                "location": {
+                    "countary": "Canada",
+                    "city": "Toronto",
+                    "lon": -79.4591847,
+                    "lat": 43.6937013
+                },
+                "__v": 0,
+                "schedules": [],
+                "priceLevel": "3",
+                "age": 85,
+                "gender": "Male",
+                "visibility": true,
+                "name": "client test man,85,visible,300$,chiro",
+                "user": "5952b95f18a83e0941ca19d2",
+                "createdAt": "2017-05-11T15:15:51.958Z",
+                "updatedAt": "2017-05-17T09:28:54.508Z",
+                "_id": "591480277d1a9d1336fa02e1",
+                "address": {
+                    "formattedAddress": "2140 Eglinton Ave W, York, ON M6E 2K8, Canada",
+                    "latitude": 43.6938527,
+                    "longitude": -79.4593029,
+                    "extra": {
+                        "googlePlaceId": "ChIJPQBVqPozK4gRHbcdADPuzlc",
+                        "confidence": 1,
+                        "premise": null,
+                        "subpremise": null,
+                        "neighborhood": "Eglinton West",
+                        "establishment": null
+                    },
+                    "administrativeLevels": {
+                        "level2long": "Toronto Division",
+                        "level2short": "Toronto Division",
+                        "level1long": "Ontario",
+                        "level1short": "ON"
+                    },
+                    "streetNumber": "2140",
+                    "streetName": "Eglinton Avenue West",
+                    "city": "Toronto",
+                    "country": "Canada",
+                    "countryCode": "CA",
+                    "zipcode": "M6E 2K8",
+                    "provider": "google"
+                },
+                "totalSessions": 6,
+                "role": "Client"
+            }
+        }
+
+## Group Professional
+
+## Professional Collection [/professionals]
+
+### Create a Professional [POST]
+
+Create the professional information that belong to the current logged user.
+
++ Request (application/json)
+
+        {
+            "name": "Johhny Doe",
+            "gender": "Male",
+            "visibility": true,
+            "phone": "123456789",
+            "age": 35,
+            "price": 5,
+            "insured": true,
+            "profession": "",
+            "certification": "Ut enim ad minim veniam",
+            "experience": 1,
+            "toClient": true,
+            "ownSpace": true,
+            "description": "Lorem ipsum dolor sit amet",
+            "avatar": "icon.jpg",
+            "address": "40 York st, Toronto"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "user": {
+                "location": {
+                    "originalAddress": "40 York st, Toronto",
+                    "countryCode": "CA",
+                    "country": "Canada",
+                    "city": "Toronto",
+                    "lon": -79.3827237,
+                    "lat": 43.6455358
+                },
+                "_id": "5979011835ba1133ceb4e107",
+                "user": "593129785dcc9118692fec80",
+                "avatar": "icon.jpg",
+                "description": "Lorem ipsum dolor sit amet",
+                "ownSpace": true,
+                "toClient": true,
+                "experience": 1,
+                "certification": "Ut enim ad minim veniam",
+                "profession": "59526fd589aac0326a9e854b",
+                "insured": true,
+                "price": 5,
+                "age": 35,
+                "phone": "123456789",
+                "visibility": true,
+                "gender": "Male",
+                "name": "Johhny Doe",
+                "createdAt": "2017-07-26T20:52:40.291Z",
+                "updatedAt": "2017-07-26T20:52:40.291Z",
+                "__v": 0,
+                "email": "professional@flaxpro.ca",
+                "role": "Professional",
+                "coordinate": {
+                    "latitude": 43.6455358,
+                    "longitude": -79.3827237
+                }
+            }
+        }
+      
+
+### List all Professionals [GET]
+
+Get a list of professionals.
+
++ Request
+    + Headers
+
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
+
++ Response 200 (application/json)
+
+        {
+            "professionals": [
+                {
+                    "_id": "5926f6b268dcf467399eb219",
+                    "user": "5926a7fcab440c644c1540f0",
+                    "name": "Postman test",
+                    "gender": "Male",
+                    "age": 25,
+                    "price": 310,
+                    "certification": "cert1",
+                    "experience": 5,
+                    "toClient": true,
+                    "ownSpace": true,
+                    "description": "Super qualified pro",
+                    "rating": 0,
+                    "role": "Professional",
+                    "coordinate": {
+                        "latitude": 43.7029684,
+                        "longitude": -79.525258
+                    },
+                    "profession": {
+                        "_id": "5926d18850fd9765db81e3f3",
+                        "name": "Box trainer",
+                        "color": "#000000",
+                        "icon": "/Assets/images/sport.png"
+                    }
+                },
+                {
+                    "_id": "5927da1468dcf467399eb227",
+                    "user": "5927d9b968dcf467399eb226",
+                    "name": "Rob Stark",
+                    "gender": "Male",
+                    "age": 20,
+                    "price": 200,
+                    "certification": "cert1",
+                    "experience": 5,
+                    "toClient": true,
+                    "ownSpace": true,
+                    "rating": 0,
+                    "role": "Professional",
+                    "coordinate": {
+                        "latitude": 43.6407835,
+                        "longitude": -79.380618
+                    },
+                    "profession": {
+                        "_id": "591c1e632b185e1add2214d5",
+                        "name": "Yoga",
+                        "color": "#ac6bbd",
+                        "icon": "/Assets/images/yoga.png"
+                    }
+                },
+                {
+                    "_id": "5927e3cb68dcf467399eb233",
+                    "user": "5927e3b868dcf467399eb232",
+                    "name": "Burry Allen",
+                    "gender": "Male",
+                    "age": 20,
+                    "price": 200,
+                    "certification": "cert1",
+                    "experience": 5,
+                    "toClient": true,
+                    "ownSpace": true,
+                    "rating": 0,
+                    "role": "Professional",
+                    "coordinate": {
+                        "latitude": 43.6407835,
+                        "longitude": -79.380618
+                    },
+                    "profession": {
+                        "_id": "591c1e632b185e1add2214d6",
+                        "name": "Chiro",
+                        "color": "#51c9b0",
+                        "icon": "/Assets/images/pilates.png"
+                    }
+                }
+            ]
+        }
+
+## Professional [/professionals/{professional_id}]
+
+### Get a Professional [POST]
+
+A single Professional object with all its details
+
++ Parameters
+    + professional_id (required, string) - Professional Id
+
+
++ Request
+    + Headers
+
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
+
++ Response 200 (application/json)
+
+        {
+            "user": {
+                "location": {
+                    "countryCode": "CA",
+                    "countary": "Canada",
+                    "city": "Toronto",
+                    "lon": -79.525258,
+                    "lat": 43.7029684
+                },
+                "__v": 0,
+                "schedules": [],
+                "user": "5926a7fcab440c644c1540f0",
+                "description": "Super qualified pro",
+                "ownSpace": true,
+                "toClient": true,
+                "experience": 5,
+                "certification": "cert1",
+                "insured": true,
+                "price": 310,
+                "avatar": "https://local-flipout-images.s3-us-west-2.amazonaws.com/fp-avatar-5923fbd41e916c57ae715e65.png",
+                "profession": {
+                    "_id": "5926d18850fd9765db81e3f3",
+                    "updatedAt": "2017-05-25T12:43:52.330Z",
+                    "createdAt": "2017-05-25T12:43:52.330Z",
+                    "name": "Box trainer",
+                    "original": false,
+                    "__v": 0,
+                    "certification": [],
+                    "icon": "/Assets/images/sport.png",
+                    "color": "#000000"
+                },
+                "age": 25,
+                "visibility": true,
+                "phone": "123",
+                "gender": "Male",
+                "name": "Postman test",
+                "createdAt": "2017-05-25T15:22:26.215Z",
+                "updatedAt": "2017-05-25T15:22:26.215Z",
+                "_id": "5926f6b268dcf467399eb219",
+                "address": {
+                    "formattedAddress": "2143 Weston Rd, York, ON M9N 1X4, Canada",
+                    "latitude": 43.7027432,
+                    "longitude": -79.5248869,
+                    "extra": {
+                        "googlePlaceId": "ChIJTSr84dowK4gRwSAMuXeEER4",
+                        "confidence": 1,
+                        "premise": null,
+                        "subpremise": null,
+                        "neighborhood": "Weston",
+                        "establishment": null
+                    },
+                    "administrativeLevels": {
+                        "level2long": "Toronto Division",
+                        "level2short": "Toronto Division",
+                        "level1long": "Ontario",
+                        "level1short": "ON"
+                    },
+                    "streetNumber": "2143",
+                    "streetName": "Weston Road",
+                    "city": "Toronto",
+                    "country": "Canada",
+                    "countryCode": "CA",
+                    "zipcode": "M9N 1X4",
+                    "provider": "google"
+                },
+                "role": "Professional"
+            }
+        }
+      
+
+### Update a client [PUT]
+
+Update a single Client object.
+
++ Parameters
+    + professional_id (required, string) - Professional Id
+
+
++ Request
+    + Headers
+
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Request (application/json)
+
+        {
+            "name": "Johhny Doe",
+            "gender": "Male",
+            "visibility": true,
+            "phone": "123456789",
+            "age": 35,
+            "price": 5,
+            "insured": true,
+            "profession": "",
+            "certification": "Ut enim ad minim veniam",
+            "experience": 1,
+            "toClient": true,
+            "ownSpace": true,
+            "description": "Lorem ipsum dolor sit amet",
+            "avatar": "icon.jpg",
+            "address": "40 York st, Toronto"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "user": {
+                "_id": "593129a45dcc9118692fec81",
+                "user": "593129785dcc9118692fec80",
+                "name": "Johhny Doe",
+                "gender": "Male",
+                "phone": "123456789",
+                "age": 35,
+                "price": 5,
+                "profession": {
+                    "_id": "59526fd589aac0326a9e854b",
+                    "updatedAt": "2017-06-27T14:46:45.101Z",
+                    "createdAt": "2017-06-27T14:46:45.101Z",
+                    "name": "",
+                    "original": false,
+                    "__v": 0,
+                    "certification": [],
+                    "icon": "/Assets/images/sport.png",
+                    "color": "#000000"
+                },
+                "certification": "Ut enim ad minim veniam",
+                "experience": 1,
+                "toClient": true,
+                "ownSpace": true,
+                "description": "Lorem ipsum dolor sit amet",
+                "location": {
+                    "originalAddress": "40 York st, Toronto",
+                    "countryCode": "CA",
+                    "country": "Canada",
+                    "city": "Toronto",
+                    "lon": -79.3827237,
+                    "lat": 43.6455358
+                },
+                "role": "Professional",
+                "address": {
+                    "formattedAddress": "40 York St, Toronto, ON M5J 2P1, Canada",
+                    "latitude": 43.6455358,
+                    "longitude": -79.3827237,
+                    "extra": {
+                        "googlePlaceId": "ChIJJ8Ryc9M0K4gR2nX0RMX4sbY",
+                        "confidence": 1,
+                        "premise": null,
+                        "subpremise": null,
+                        "neighborhood": "Downtown",
+                        "establishment": null
+                    },
+                    "administrativeLevels": {
+                        "level2long": "Toronto Division",
+                        "level2short": "Toronto Division",
+                        "level1long": "Ontario",
+                        "level1short": "ON"
+                    },
+                    "streetNumber": "40",
+                    "streetName": "York Street",
+                    "city": "Toronto",
+                    "country": "Canada",
+                    "countryCode": "CA",
+                    "zipcode": "M5J 2P1",
+                    "provider": "google"
+                }
+            }
+        }
+        
++ Response 400 (application/json)
+
+        {
+            "error": "No professional could be found for this ID."
+        }
+
+
+## Group Professions
+
+## Professions Collections [/professions]
+
+### Create a Profession [POST]
+
+Create a new profession.
+
++ Request
+    + Headers
+
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Request (application/json)
+
+        {
+            "name": "Trainer",
+            "color": "#3E7FAE",
+            "icon": "/Assets/images/sport.png",
+            "original" : true,
+            "certification" : [
+              "cert1"
+            ]
+        }
+
++ Response 200 (application/json)
+
+        {
+            "profession": {
+                "__v": 0,
+                "updatedAt": "2017-08-01T23:29:00.925Z",
+                "createdAt": "2017-08-01T23:29:00.925Z",
+                "name": "Trainer",
+                "original": false,
+                "_id": "59810ebcdd3a1a1049b5ab9d",
+                "certification": [
+                    "cert1"
+                ],
+                "icon": "/Assets/images/sport.png",
+                "color": "#3E7FAE"
+            }
+        }
+
+### List all Professions [GET]
+
+Get a list of professions.
+
++ Request
+    + Headers
+
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Response 200 (application/json)
+        
+        {
+            "professions": [
+                {
+                    "color": "#ac6bbd",
+                    "icon": "/Assets/images/yoga.png",
+                    "certification": [
+                        "cert1"
+                    ],
+                    "original": true,
+                    "__v": 0,
+                    "name": "Yoga",
+                    "createdAt": "2017-05-17T09:56:51.466Z",
+                    "updatedAt": "2017-05-17T09:56:51.466Z",
+                    "_id": "591c1e632b185e1add2214d5"
+                },
+                {
+                    "color": "#51c9b0",
+                    "icon": "/Assets/images/pilates.png",
+                    "certification": [
+                        "cert1",
+                        "cert2"
+                    ],
+                    "original": true,
+                    "__v": 0,
+                    "name": "Chiro",
+                    "createdAt": "2017-05-17T09:56:51.477Z",
+                    "updatedAt": "2017-05-17T09:56:51.477Z",
+                    "_id": "591c1e632b185e1add2214d6"
+                },
+                {
+                    "color": "#ee4e42",
+                    "icon": "/Assets/images/strength_training.png",
+                    "certification": [
+                        "cert1",
+                        "random cert"
+                    ],
+                    "original": true,
+                    "__v": 0,
+                    "name": "Strength Training",
+                    "createdAt": "2017-05-17T09:56:51.478Z",
+                    "updatedAt": "2017-05-17T09:56:51.478Z",
+                    "_id": "591c1e632b185e1add2214d7"
+                }
+            ]
+        }
+
+## Group Schedule
+
+## Schedules Collections [/schedules]
+
+### Create a Schedule [POST]
+
+Create a new schedule.
+
++ Request
+    + Headers
+
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Request (application/json)
+
+        {    
+            "schedules": [
+              {
+                "from":"Sat Jun 24 2017 10:00:00 GMT+0300(MSK)",
+                "to":"Wed Jun 28 2017 16:00:00 GMT+0300(MSK)"
+              }
+            ]
+        }
+
++ Response 200 (application/json)
+
+        [
+            {
+                "__v": 0,
+                "updatedAt": "2017-08-01T23:51:32.981Z",
+                "createdAt": "2017-08-01T23:51:32.981Z",
+                "professional": "593129a45dcc9118692fec81",
+                "from": "2017-06-24T07:00:00.000Z",
+                "to": "2017-06-28T13:00:00.000Z",
+                "_id": "59811404dd3a1a1049b5ab9e"
+            }
+        ]
+
++ Response 400 (application/json)
+
+        {
+            "error": "Error happen while adding schedule.",
+            "reason": "Missing or invalid params to create schedule."
+        }
+
+### Update/create Schedules (Many) [PUT]
+
++ Request
+    + Headers
+
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Request (application/json)
+
+        {    
+            "schedules": [
+              {
+                "from":"Sat Jun 24 2017 10:00:00 GMT+0300(MSK)",
+                "to":"Wed Jun 28 2017 16:00:00 GMT+0300(MSK)"
+              }
+            ]
+        }
+
++ Response 200 (application/json)
+
+        {
+            "error": null
+        }
+
++ Response 400 (application/json)
+
+        {
+          "error": "Failed to update schedules",
+          "reason": "You must enter valid schedules as [{from, to}]."
+        }
+
+
+
+## Professional Schedules Collections [/schedules/professional/{professional_id}]
+
+### Get schedule for professional [GET]
+
++ Parameters
+    + professional_id (required, string) - Professional Id
+
++ Request
+    + Headers
+
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Response 200 (application/json)
+
+        [
+            {
+                "date": "Sat, 24 Jun 2017",
+                "schedules": [
+                    {
+                        "__v": 0,
+                        "professional": {
+                            "_id": "593129a45dcc9118692fec81",
+                            "name": "Johhny Doe",
+                            "profession": {
+                                "_id": "59526fd589aac0326a9e854b",
+                                "name": "",
+                                "color": "#000000"
+                            },
+                            "user": "593129785dcc9118692fec80",
+                            "avatar": "icon.jpg"
+                        },
+                        "to": "2017-06-28T13:00:00.000Z",
+                        "from": "2017-06-24T07:00:00.000Z",
+                        "createdAt": "2017-08-01T23:53:03.856Z",
+                        "updatedAt": "2017-08-01T23:53:03.856Z",
+                        "_id": "5981145fdd3a1a1049b5ab9f"
+                    }
+                ]
+            }
+        ]
+
+      
+## Client Schedules Collections [/schedules/client/{client_id}]
+
+### Get schedule for client [GET]
+
++ Parameters
+    + client_id (required, string) - Client Id
+
++ Request
+    + Headers
+
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Response 200 (application/json)
+
+        [
+            {
+                "date": "Tue, 27 Jun 2017",
+                "schedules": [
+                    {
+                        "__v": 0,
+                        "client": {
+                        "_id": "5953cda913a7e048220fff7b",
+                        "name": "John Doe 2",
+                        "avatar": "",
+                        "user": "5953cd9013a7e048220fff7a"
+                    },
+                    "to": "2017-06-30T00:00:00.000Z",
+                    "from": "2017-06-28T00:00:00.000Z",
+                    "createdAt": "2017-07-04T15:45:24.456Z",
+                    "updatedAt": "2017-07-04T15:45:24.456Z",
+                    "_id": "595bb814c70ab1547d8b7b31"
+                    }
+                ]
+            }
+        ]
+
+## Group Sessions
+
+## Sessions Collection [/sessions]
+
+### Create sessions [POST]
+
++ Attributes
+    + professional (required, string) - Professional Id of the user in the form of a string
+    + client (required, string) - Client Id of the user in the form of a string
+    + schedules (required, array) - Array of schedules in the form of [{from: date, to: date}]
+    + location (required, string) - Values allowed (address/client/professional)
+    + address (optional, string) - This parameter will be required if location is address
+  
+
++ Request
+    + Headers
+
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Request (application/json)
+
+        {
+            "professional": "593129a45dcc9118692fec81",
+            "client": "5953cda913a7e048220fff7b",
+            "schedules": [{
+                "from": "12-12-2018",
+                "to": "12-12-2019"
+            }],
+            "location": "address",
+            "address": "Canada"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "sessions": [
+                {
+                    "__v": 0,
+                    "updatedAt": "2017-08-08T16:53:49.088Z",
+                    "createdAt": "2017-08-08T16:53:49.088Z",
+                    "client": "5953cda913a7e048220fff7b",
+                    "professional": "593129a45dcc9118692fec81",
+                    "profession": "5922e22846d4b14fec273721",
+                    "from": "2017-12-12T03:00:00.000Z",
+                    "to": "2018-12-12T03:00:00.000Z",
+                    "_id": "5989ec9d030569393de2a77b",
+                    "location": {
+                        "lat": 56.130366,
+                        "lon": -106.346771,
+                        "country": "Canada"
+                    }
+                }
+            ]
+        }
+        
++ Response 422 (application/json)
+
+        {
+            "statusCode": 422,
+            "error": "Validations errors",
+            "data": {
+                "success": false,
+                "errors": [
+                    {
+                        "field": "professional",
+                        "message": "The field professional is required"
+                    },
+                    {
+                        "field": "client",
+                        "message": "The field client is required"
+                    },
+                    {
+                        "field": "schedules",
+                        "message": "The field schedules is required"
+                    },
+                    {
+                        "field": "location",
+                        "message": "The field location is required"
+                    }
+                ]
+            }
+        }
+
+### Get schedule for current logged user [GET]
+
++ Attributes
+    + byField (required, string) - Values allowed (day)
+
++ Request
+    + Headers
+    
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Response 200 (application/json)
+
+        [
+            {
+                "location": {
+                    "lat": 43.6407835,
+                    "lon": -79.380618,
+                    "city": "Toronto",
+                    "country": "Canada"
+                },
+                "__v": 0,
+                "client": {
+                    "_id": "5953cda913a7e048220fff7b",
+                    "name": "John Doe 2",
+                    "avatar": ""
+                },
+                "profession": {
+                    "_id": "5922e22846d4b14fec273721",
+                    "name": "Manager",
+                    "color": "#000000",
+                    "icon": "/Assets/images/sport.png"
+                },
+                "professional": {
+                    "_id": "593129a45dcc9118692fec81",
+                    "name": "prooo"
+                },
+                "from": "2017-06-14T13:00:00.000Z",
+                "to": "2017-06-14T15:00:00.000Z",
+                "createdAt": "2017-07-18T18:08:46.261Z",
+                "updatedAt": "2017-07-18T18:08:46.261Z",
+                "_id": "596e4eaec157cc1b25391aa5"
+            },
+            {
+                "location": {
+                    "lat": 43.6407835,
+                    "lon": -79.380618,
+                    "city": "Toronto",
+                    "country": "Canada"
+                },
+                "__v": 0,
+                "client": {
+                    "_id": "5953cda913a7e048220fff7b",
+                    "name": "John Doe 2",
+                    "avatar": ""
+                },
+                "profession": {
+                    "_id": "5922e22846d4b14fec273721",
+                    "name": "Manager",
+                    "color": "#000000",
+                    "icon": "/Assets/images/sport.png"
+                },
+                "professional": {
+                    "_id": "593129a45dcc9118692fec81",
+                    "name": "prooo"
+                },
+                "from": "2017-06-14T13:00:00.000Z",
+                "to": "2017-06-14T15:00:00.000Z",
+                "createdAt": "2017-07-18T18:08:48.874Z",
+                "updatedAt": "2017-07-18T18:08:48.874Z",
+                "_id": "596e4eb0c157cc1b25391aa9"
+            }
+        ]
+        
+
+## Client Sessions [/sessions/client/{client_id}]
+
+### Get schedule for client [GET]
+
++ Parameters
+    + client_id (required, string) - Client Id
+
++ Attributes
+    + byField (required, string) - Values allowed (day/profession)
+
++ Request
+    + Headers
+        
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Response 200 (application/json)
+
+        [
+            {
+                "date": "Sat, 3 Jun 2017",
+                "sessions": [
+                  {
+                      "location": {
+                          "lat": 43.6407835,
+                          "lon": -79.380618,
+                          "city": "Toronto",
+                          "country": "Canada"
+                      },
+                      "__v": 0,
+                      "client": "5953cda913a7e048220fff7b",
+                      "profession": {
+                          "_id": "5922e22846d4b14fec273721",
+                          "name": "Manager",
+                          "color": "#000000",
+                          "icon": "/Assets/images/sport.png"
+                      },
+                      "professional": {
+                          "_id": "593129a45dcc9118692fec81",
+                          "name": "prooo"
+                      },
+                      "from": "2017-06-03T07:00:00.000Z",
+                      "to": "2017-06-03T09:00:00.000Z",
+                      "createdAt": "2017-07-24T13:16:29.199Z",
+                      "updatedAt": "2017-07-24T13:16:29.199Z",
+                      "_id": "5975f32d95b4091080a2d558"
+                  },
+                  {
+                      "location": {
+                          "lat": 43.6407835,
+                          "lon": -79.380618,
+                          "city": "Toronto",
+                          "country": "Canada"
+                      },
+                      "__v": 0,
+                      "client": "5953cda913a7e048220fff7b",
+                      "profession": {
+                          "_id": "5922e22846d4b14fec273721",
+                          "name": "Manager",
+                          "color": "#000000",
+                          "icon": "/Assets/images/sport.png"
+                      },
+                      "professional": {
+                          "_id": "593129a45dcc9118692fec81",
+                          "name": "prooo"
+                      },
+                      "from": "2017-06-03T07:00:00.000Z",
+                      "to": "2017-06-03T09:00:00.000Z",
+                      "createdAt": "2017-07-17T15:12:11.500Z",
+                      "updatedAt": "2017-07-17T15:12:11.500Z",
+                      "_id": "596cd3cbea31562d5676aea0"
+                  }
+                ]
+              }
+            ]
+    
++ Response 200 (application/json)
+
+        [
+            {
+                "location": {
+                    "lat": 43.6407835,
+                    "lon": -79.380618,
+                    "city": "Toronto",
+                    "country": "Canada"
+                },
+                "__v": 0,
+                "client": "5953cda913a7e048220fff7b",
+                "profession": {
+                    "_id": "5922e22846d4b14fec273721",
+                    "name": "Manager",
+                    "color": "#000000",
+                    "icon": "/Assets/images/sport.png"
+                },
+                "professional": {
+                    "_id": "593129a45dcc9118692fec81",
+                    "name": "prooo"
+                },
+                "from": "2017-06-14T13:00:00.000Z",
+                "to": "2017-06-14T15:00:00.000Z",
+                "createdAt": "2017-07-17T15:12:11.512Z",
+                "updatedAt": "2017-07-17T15:12:11.512Z",
+                "_id": "596cd3cbea31562d5676aea1"
+            },
+            {
+                "location": {
+                    "lat": 43.6407835,
+                    "lon": -79.380618,
+                    "city": "Toronto",
+                    "country": "Canada"
+                },
+                "__v": 0,
+                "client": "5953cda913a7e048220fff7b",
+                "profession": {
+                    "_id": "5922e22846d4b14fec273721",
+                    "name": "Manager",
+                    "color": "#000000",
+                    "icon": "/Assets/images/sport.png"
+                },
+                "professional": {
+                    "_id": "593129a45dcc9118692fec81",
+                    "name": "prooo"
+                },
+                "from": "2017-06-03T07:00:00.000Z",
+                "to": "2017-06-03T09:00:00.000Z",
+                "createdAt": "2017-07-17T15:12:11.500Z",
+                "updatedAt": "2017-07-17T15:12:11.500Z",
+                "_id": "596cd3cbea31562d5676aea0"
+            }
+        ]
+
+    
++ Response 422 (application/json)
+
+        {
+            "statusCode": 422,
+            "error": "Validations errors",
+            "data": {
+                "success": false,
+                "errors": [
+                    {
+                        "field": "byField",
+                        "message": "byField must be one of day,profession"
+                    }
+                ]
+            }
+        }
+
+## Professional Sessions [/sessions/professional/{professional_id}]
+
+### Get schedule for Professional [GET]
+
++ Parameters
+    + professional_id (required, string) - Professional Id
+
++ Attributes
+    + byField (required, string) - Values allowed (day)
+
++ Request
+    + Headers
+    
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Response 200 (application/json)
+
+        [
+            {
+                "date": "Sat, 3 Jun 2017",
+                "sessions": [
+                    {
+                        "location": {
+                            "lat": 43.6407835,
+                            "lon": -79.380618,
+                            "city": "Toronto",
+                            "country": "Canada"
+                        },
+                        "__v": 0,
+                        "client": {
+                            "_id": "5953cda913a7e048220fff7b",
+                            "name": "John Doe 2",
+                            "avatar": ""
+                        },
+                        "profession": {
+                            "_id": "5922e22846d4b14fec273721",
+                            "name": "Manager",
+                            "color": "#000000",
+                            "icon": "/Assets/images/sport.png"
+                        },
+                        "professional": {
+                            "_id": "593129a45dcc9118692fec81",
+                            "name": "prooo"
+                        },
+                        "from": "2017-06-03T07:00:00.000Z",
+                        "to": "2017-06-03T09:00:00.000Z",
+                        "createdAt": "2017-07-24T13:47:58.831Z",
+                        "updatedAt": "2017-07-24T13:47:58.831Z",
+                        "_id": "5975fa8e59ca1c15f19c71cd"
+                    },
+                    {
+                        "location": {
+                            "lat": 43.6407835,
+                            "lon": -79.380618,
+                            "city": "Toronto",
+                            "country": "Canada"
+                        },
+                        "__v": 0,
+                        "client": {
+                            "_id": "5953cda913a7e048220fff7b",
+                            "name": "John Doe 2",
+                            "avatar": ""
+                        },
+                        "profession": {
+                            "_id": "5922e22846d4b14fec273721",
+                            "name": "Manager",
+                            "color": "#000000",
+                            "icon": "/Assets/images/sport.png"
+                        },
+                        "professional": {
+                            "_id": "593129a45dcc9118692fec81",
+                            "name": "prooo"
+                        },
+                        "from": "2017-06-03T07:00:00.000Z",
+                        "to": "2017-06-03T09:00:00.000Z",
+                        "createdAt": "2017-07-17T15:12:11.500Z",
+                        "updatedAt": "2017-07-17T15:12:11.500Z",
+                        "_id": "596cd3cbea31562d5676aea0"
+                    }
+                ]
+            }
+        ]
+
+    
++ Response 200 (application/json)
+
+        [
+            {
+                "location": {
+                    "lat": 43.6407835,
+                    "lon": -79.380618,
+                    "city": "Toronto",
+                    "country": "Canada"
+                },
+                "__v": 0,
+                "client": {
+                    "_id": "5915dc55fa760929e41bd531",
+                    "name": "ddaws"
+                },
+                "profession": {
+                    "_id": "5922e22846d4b14fec273721",
+                    "name": "Manager",
+                    "color": "#000000",
+                    "icon": "/Assets/images/sport.png"
+                },
+                "professional": {
+                    "_id": "593129a45dcc9118692fec81",
+                    "name": "prooo"
+                },
+                "from": "2017-06-22T00:00:00.000Z",
+                "to": "2017-06-30T00:00:00.000Z",
+                "createdAt": "2017-06-28T00:47:26.666Z",
+                "updatedAt": "2017-06-28T00:47:26.666Z",
+                "_id": "5952fc9e0f5cf812024ffbaf"
+            },
+            {
+                "location": {
+                    "lat": 43.6407835,
+                    "lon": -79.380618,
+                    "city": "Toronto",
+                    "country": "Canada"
+                },
+                "__v": 0,
+                "client": {
+                    "_id": "5915dc55fa760929e41bd531",
+                    "name": "ddaws"
+                },
+                "profession": {
+                    "_id": "5922e22846d4b14fec273721",
+                    "name": "Manager",
+                    "color": "#000000",
+                    "icon": "/Assets/images/sport.png"
+                },
+                "professional": {
+                    "_id": "593129a45dcc9118692fec81",
+                    "name": "prooo"
+                },
+                "from": "2017-06-22T00:00:00.000Z",
+                "to": "2017-06-30T00:00:00.000Z",
+                "createdAt": "2017-06-28T01:17:16.201Z",
+                "updatedAt": "2017-06-28T01:17:16.201Z",
+                "_id": "5953039c2d4b561b322e71c2"
+            }
+        ]
+
+    
+    
++ Response 422 (application/json)
+
+        {
+            "statusCode": 422,
+            "error": "Validations errors",
+            "data": {
+                "success": false,
+                "errors": [
+                    {
+                        "field": "byField",
+                        "message": "byField must be one of day"
+                    }
+                ]
+            }
+        }
+
+
+## Group Contracts
+
+## Create Contract [/contracts]
+
+### Create new contract [POST]
+
+Make an offer or hire an user
+
++ Attributes
+    + userTo (required, string) - User Id to make offer
+    + sessions (required, array) - Array of schedules in the form of [{from: date, to: date}] 
+    + numberOfPeople (required, number) - Number of people in each session
+    + paymentMethod (optional, string) - Values allowed ('cash', 'card', 'giftcard')
+    + rate (required, number) - Rate for contract
+
+
++ Request
+    + Headers
+    
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Request (application/json)
+
+        {
+            "userTo": "593129a45dcc9118692fec81",
+            "sessions": [{
+                "from": "12-12-2018",
+                "to": "12-12-2019"
+            }],
+            "numberOfPeople": 1",
+            "paymentMethod": "card",
+            "rate": 200
+        }
+        
++ Response 200 (application/json)
+
+        {
+            "userTo": "593129785dcc9118692fec80",
+            "sessions":   [
+                {
+                    "from": "2017-12-30",
+                    "to": "2017-12-31"
+                }, 
+                {
+                    "from": "2017-12-30",
+                    "to": "2017-12-31"
+                }
+            ],
+            "numberOfPeople": 1,
+            "paymentMethod": "card",
+            "rate": 230
+        }
+
+
++ Response 422 (application/json)
+
+        {
+            "statusCode": 422,
+            "error": "Validations errors",
+            "data": {
+                "success": false,
+                "errors": [
+                    {
+                        "field": "userTo",
+                        "message": "The field userTo is required"
+                    },
+                    {
+                        "field": "sessions",
+                        "message": "The field sessions is required"
+                    },
+                    {
+                        "field": "numberOfPeople",
+                        "message": "The field numberOfPeople is required"
+                    },
+                    {
+                        "field": "rate",
+                        "message": "The field rate is required"
+                    },
+                    {
+                        "field": "paymentMethod",
+                        "message": "The field paymentMethod is required"
+                    }
+                ]
+            }
+        }
+        
+## Contract [/contracts/{contract_id}]
+
+### Get a single Contract [GET]
+
+Get contract information
+
++ Parameters
+    + contract_id (required, string) - Contract Id
+
+
++ Request
+    + Headers
+    
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Response 200 (application/json)
+
+        {
+            "sessions": [
+                {
+                    "_id": "598a2520f9e5e07421f33816",
+                    "updatedAt": "2017-08-08T20:54:56.885Z",
+                    "createdAt": "2017-08-08T20:54:56.885Z",
+                    "to": "2017-12-31T00:00:00.000Z",
+                    "from": "2017-12-30T00:00:00.000Z",
+                    "professional": "593129a45dcc9118692fec81",
+                    "profession": "5922e22846d4b14fec273721",
+                    "client": "5953cda913a7e048220fff7b",
+                    "__v": 0,
+                    "location": {
+                        "country": "Canada",
+                        "city": "Toronto",
+                        "lon": -79.380618,
+                        "lat": 43.6407835
+                    }
+                },
+                {
+                    "_id": "598a2520f9e5e07421f33817",
+                    "updatedAt": "2017-08-08T20:54:56.890Z",
+                    "createdAt": "2017-08-08T20:54:56.890Z",
+                    "to": "2017-12-31T00:00:00.000Z",
+                    "from": "2017-12-30T00:00:00.000Z",
+                    "professional": "593129a45dcc9118692fec81",
+                    "profession": "5922e22846d4b14fec273721",
+                    "client": "5953cda913a7e048220fff7b",
+                    "__v": 0,
+                    "location": {
+                        "country": "Canada",
+                        "city": "Toronto",
+                        "lon": -79.380618,
+                        "lat": 43.6407835
+                    }
+                }
+            ],
+            "__v": 0,
+            "status": "Pending",
+            "userFrom": {
+                "_id": "5953cd9013a7e048220fff7a",
+                "updatedAt": "2017-06-28T15:39:21.968Z",
+                "createdAt": "2017-06-28T15:38:56.076Z",
+                "refreshToken": "5953cd9013a7e048220fff7a.aa456eb04adbdbc4eefc707bc7e8a0bf0df375e44310b51200d9d0cde592e18f42eec263da6324f4",
+                "email": "client@flaxpro.ca",
+                "password": "$2a$05$Gt5yWBLG5tn24Afra/tk2eClqz7A.JknJ53y6/pVijIZ7pA8Iv.7e",
+                "role": "Client",
+                "__v": 0,
+                "settings": {
+                    "notification": true
+                }
+            },
+            "rate": 230,
+            "paymentMethod": "card",
+            "numberOfPeople": 1,
+            "userTo": {
+                "_id": "593129785dcc9118692fec80",
+                "updatedAt": "2017-07-27T12:23:26.682Z",
+                "createdAt": "2017-06-02T09:01:44.107Z",
+                "refreshToken": "593129785dcc9118692fec80.d91d7e604c8e327d8e8d585fda04ad704330b25ae52f97e8a5223405f189e1dc8ad9193a28c08edf",
+                "email": "professional@flaxpro.ca",
+                "password": "$2a$05$p89ti622rspkfQZ5.4S04uc3JYSHIIPoi/phKAUWb823XSNobQ8l6",
+                "role": "Professional",
+                "__v": 0,
+                "tos_acceptance_date": "1970-01-18T08:59:18.205Z",
+                "tos_acceptance_ip": "::ffff:192.168.23.86",
+                "settings": {
+                    "notification": true
+                }
+            },
+            "createdAt": "2017-08-08T20:54:56.895Z",
+            "updatedAt": "2017-08-08T20:54:56.895Z",
+            "_id": "598a2520f9e5e07421f33818",
+            "Client": {
+                "_id": "5953cda913a7e048220fff7b",
+                "updatedAt": "2017-06-28T19:32:45.985Z",
+                "createdAt": "2017-06-28T15:39:21.958Z",
+                "name": "John Doe 2",
+                "gender": "M",
+                "phone": "123456789",
+                "visibility": true,
+                "age": 33,
+                "avatar": "",
+                "description": "",
+                "user": "5953cd9013a7e048220fff7a",
+                "__v": 0,
+                "location": {
+                    "lat": 43.6455358,
+                    "lon": -79.3827237,
+                    "city": "Toronto",
+                    "country": "Canada",
+                    "originalAddress": "40 York st, Toronto"
+                },
+                "professions": [
+                    {
+                        "_id": "5954045daf7fdf088428a108"
+                    }
+                ]
+            },
+            "Professional": {
+                "_id": "593129a45dcc9118692fec81",
+                "updatedAt": "2017-06-02T09:02:28.604Z",
+                "createdAt": "2017-06-02T09:02:28.604Z",
+                "name": "Jhon Doe",
+                "visibility": false,
+                "gender": "Male",
+                "age": 19,
+                "phone": "99999999999",
+                "price": 299,
+                "insured": true,
+                "profession": "5922e22846d4b14fec273721",
+                "certification": "Certified personal trainer",
+                "experience": 7,
+                "description": "some description",
+                "toClient": true,
+                "user": "593129785dcc9118692fec80",
+                "__v": 0,
+                "location": {
+                    "lat": 43.6407835,
+                    "lon": -79.380618,
+                    "city": "Toronto",
+                    "country": "Canada",
+                    "countryCode": "CA"
+                }
+            }
+        }
+
+
++ Response 400 (application/json)
+
+        {
+            "error": "Failed to get contract"
+        }
+        
+
+### Reply to offer/hire [POST]
+
+After a contract is created the user must accept or decline the offer/hire
+
++ Parameters
+    + contract_id (required, string) - Contract Id
+
+
++ Attributes
+    + accept (required, boolean) - Contract Accepted (true/false)
+    + paymentMethod (optional, string) - This field is required if the current logged user is a client, values allowed ('cash', 'card', 'giftcard')
+
++ Request
+    + Headers
+    
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
+
++ Request (application/json)
+
+        {
+            "accept": true,
+            "paymentMethod": "card"
+        }
+        
++ Response 200 (application/json)
+
+        {
+            "error": null
+        }
+
+
++ Response 422 (application/json)
+
+        {
+            "statusCode": 422,
+            "error": "Validations errors",
+            "data": {
+                "success": false,
+                "errors": [
+                    {
+                        "field": "accept",
+                        "message": "The field accept is required"
+                    }
+                ]
+            }
+        }
+
+## Cancel Contract [/contracts/{contract_id}/status]
+
+### Cancel the contract [PUT]
+
+Only the professional can cancel a contract.
+
++ Parameters
+    + contract_id (required, string) - Contract Id
+
+
++ Request
+    + Headers
+    
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Response 200 (application/json)
+
+        {
+            "error": null
+        }
+
+
++ Response 400 (application/json)
+
+        {
+            "error": "Failed to cancel Contract",
+            "reason": "Contract already cancelled"
+        }
+
+## Refund a contract [/contracts/{contract_id}/refund]
+
+### Refund the contract [POST]
+
+If the refund request is made by a professional is approved immediately, otherwise the professional should approved later
+
++ Parameters
+    + contract_id (required, string) - Contract Id
+
+
++ Request
+    + Headers
+    
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Response 200 (application/json)
+
+        {
+            "statusCode": 200,
+            "data": {
+                "__v": 0,
+                "updatedAt": "2017-08-08T22:03:53.128Z",
+                "createdAt": "2017-08-08T22:03:53.128Z",
+                "transaction": "598a353feee2a3057ff2e5be",
+                "status": "pending",
+                "requestedAt": "2017-08-08T22:03:53.127Z",
+                "requestedBy": "5953cd9013a7e048220fff7a",
+                "_id": "598a3549eee2a3057ff2e5bf"
+            }
+        }
+    
++ Response 200 (application/json)
+
+        {
+            "statusCode": 200,
+            "data": {
+                "__v": 0,
+                "updatedAt": "2017-08-08T22:05:11.654Z",
+                "createdAt": "2017-08-08T22:05:10.486Z",
+                "transaction": "598a358aeee2a3057ff2e5c4",
+                "status": "accepted",
+                "requestedAt": "2017-08-08T22:05:10.485Z",
+                "requestedBy": "593129785dcc9118692fec80",
+                "_id": "598a3596eee2a3057ff2e5c5",
+                "stripeData": {
+                    "id": "re_1Aofp5D3iIZNbHstroChFk1H",
+                    "object": "refund",
+                    "amount": 46000,
+                    "balance_transaction": "txn_1Aofp5D3iIZNbHstCF1Sjvy9",
+                    "charge": "ch_1AoforD3iIZNbHstP1mE1dCR",
+                    "created": "1502229911",
+                    "currency": "cad",
+                    "reason": null,
+                    "receipt_number": null,
+                    "status": "succeeded"
+                }
+            }
+        }
+
+
++ Response 400 (application/json)
+
+        {
+            "error": "Refund status: accepted"
+        }
+
+
+## Update the refund status [/contracts/{contract_id}/refund/{refund_id}]
+
+### Update the refund status [PUT]
+
+The professional can approved/declined the contract refund
+
++ Parameters
+    + contract_id (required, string) - Contract Id
+    + refund_id (required, string) - Refund Id
+
+
++ Request
+    + Headers
+    
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Response 200 (application/json)
+
+        {
+            "statusCode": 200,
+            "data": {
+                "_id": "598a3794eee2a3057ff2e5cb",
+                "updatedAt": "2017-08-08T22:17:15.268Z",
+                "createdAt": "2017-08-08T22:13:40.103Z",
+                "transaction": "598a3787eee2a3057ff2e5ca",
+                "status": "accepted",
+                "requestedAt": "2017-08-08T22:13:40.103Z",
+                "requestedBy": "5953cd9013a7e048220fff7a",
+                "__v": 0,
+                "stripeData": {
+                    "id": "re_1Aog0kD3iIZNbHsthObvKCJu",
+                    "object": "refund",
+                    "amount": 46000,
+                    "balance_transaction": "txn_1Aog0kD3iIZNbHstV7C4bzoD",
+                    "charge": "ch_1Aofx4D3iIZNbHstxoLvnf1f",
+                    "created": "1502230634",
+                    "currency": "cad",
+                    "reason": null,
+                    "receipt_number": null,
+                    "status": "succeeded"
+                }
+            }
+        }
+    
++ Response 200 (application/json)
+
+        {
+            "statusCode": 200,
+            "data": {
+                "_id": "598a3794eee2a3057ff2e5cb",
+                "updatedAt": "2017-08-08T22:16:48.869Z",
+                "createdAt": "2017-08-08T22:13:40.103Z",
+                "transaction": "598a3787eee2a3057ff2e5ca",
+                "status": "declined",
+                "requestedAt": "2017-08-08T22:13:40.103Z",
+                "requestedBy": "5953cd9013a7e048220fff7a",
+                "__v": 0,
+                "stripeData": false
+            }
+        }
+
+
++ Response 403 (application/json)
+    
+        {
+            "error": "You are not allowed to change status"
+        }
+    
++ Response 422 (application/json)
+
+        {
+            "statusCode": 422,
+            "error": "Validations errors",
+            "data": {
+                "success": false,
+                "errors": [
+                    {
+                    "field": "approved",
+                    "message": "The field approved is required"
+                    }
+                ]
+            }
+        }
+
+## Group Payments
+
+## Client Payment [/payments/client]
+
+### Create Client Payment Method [POST]
+
+Create a new card and associate to the client user
+
++ Attributes
+    + number (required, string) - Credit card number
+    + expMonth (required, string) - Credit card expiration month
+    + expYear (required, string) - Credit card expiration year
+    + cvc (required, string) - Credit card CVC
+
+
++ Request
+    + Headers
+    
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Request (application/json)
+
+        {
+            "number": "4242424242424242",
+            "expMonth": "12",
+            "cvc": "123",
+            "expYear": "2020"
+        }
+                    
++ Response 200 (application/json)
+
+        {
+            "__v": 0,
+            "updatedAt": "2017-08-09T12:25:14.485Z",
+            "createdAt": "2017-08-09T12:25:14.485Z",
+            "user": "5953cd9013a7e048220fff7a",
+            "customerId": "cus_B0r8I6gh8VUEKg",
+            "cardId": "card_1AotFOD3iIZNbHstbvLdgiGb",
+            "last4": "4242",
+            "_id": "598aff2a5675ba19bf3b7be3"
+        }
+    
++ Response 422 (application/json)
+
+        {
+            "statusCode": 422,
+            "error": "Validations errors",
+            "data": {
+                "success": false,
+                "errors": [
+                    {
+                        "field": "number",
+                        "message": "number is not a valid card number"
+                    },
+                    {
+                        "field": "expMonth",
+                        "message": "expMonth max length 2 characters"
+                    },
+                    {
+                        "field": "expYear",
+                        "message": "expYear max length 4 characters"
+                    },
+                    {
+                        "field": "cvc",
+                        "message": "cvc length must be at least 3 characters long"
+                    }
+                ]
+            }
+        }
+
+
+## Professional Payment [/payments/professional]
+
+### Create Professional Payment Method [POST]
+
+Create a new bank account and associate to the professional user. This should return a list of field needed to verification.
+
++ Attributes
+    + account_number (required, string) - The bank account number (e.g., 000123456789)
+    + routing_number (required, string) - The bank routing number (e.g., 11000-000).
+    + currency (required, string) - Three character currency code (e.g., CAD).
+
+  
++ Request
+    + Headers
+    
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Request (application/json)
+
+        {
+            "account_number": "000123456789",
+            "routing_number": "11000-000",
+            "currency": "CAD"
+        }
+                        
++ Response 200 (application/json)
+
+        {
+            "due_by": null,
+            "fields": [
+                {
+                    "name": "legal_entity.dob.day",
+                    "caption": "Birthday day",
+                    "type": "day"
+                },
+                {
+                    "name": "legal_entity.dob.month",
+                    "caption": "Birthday month",
+                    "type": "month"
+                },
+                {
+                    "name": "legal_entity.dob.year",
+                    "caption": "Birthday year",
+                    "type": "year"
+                },
+                {
+                    "name": "legal_entity.first_name",
+                    "caption": "Firstname",
+                    "type": "String"
+                },
+                {
+                    "name": "legal_entity.last_name",
+                    "caption": "Lastname",
+                    "type": "String"
+                }
+            ],
+            "bankAccount": {
+                "__v": 0,
+                "updatedAt": "2017-08-09T13:04:11.530Z",
+                "createdAt": "2017-08-09T13:04:11.530Z",
+                "user": "593129785dcc9118692fec80",
+                "country": "CA",
+                "accountId": "acct_1Aotr4FfLYW4yLD2",
+                "stripeId": "ba_1Aotr4FfLYW4yLD2WJHA8Jfu",
+                "_id": "598b084b5675ba19bf3b7be4"
+            }
+        }
+    
++ Response 422 (application/json)
+
+        {
+            "statusCode": 422,
+            "error": "Validations errors",
+            "data": {
+                "success": false,
+                "errors": [
+                    {
+                        "field": "account_number",
+                        "message": "The field account_number is required"
+                    },
+                    {
+                        "field": "routing_number",
+                        "message": "The field routing_number is required"
+                    },
+                    {
+                        "field": "currency",
+                        "message": "The field currency is required"
+                    }
+                ]
+            }
+        }
+
++ Response 400 (application/json)
+
+        {
+            "error": "Failed to set card. Bank account already registered, BankAccountId: 596f58e71489f11818b20523"
+        }
+
+## Professional Payment Complete Registration [/payments/professional/legal_entity]
+
+### Complete Professional Payment Method [POST]
+
+To complete the registration of the bank account identity verification is required, the verification has a fields_needed property: an array of strings representing the account fields required for verification. The first set of data to send is returned at the endpoint of the register bank account. This process must be repeated until the required fields are null.
+
++ Attributes
+    + legal_entity.dob.day (required, string) - The day of birth, between 1 and 31.
+    + legal_entity.dob.month (required, string) - he month of birth, between 1 and 12.
+    + legal_entity.dob.year (required, string) - The 4-digit year of birth.
+    + legal_entity.first_name (required, string) - The first name of the individual responsible for the account.
+    + legal_entity.last_name (required, string) - The last name of the individual responsible for the account.
+    + legal_entity.address.city (required, string) - City/District/Suburb/Town/Village.
+    + legal_entity.address.line1 (required, string) - Address line 1 (Street address/PO Box/Company name).
+    + legal_entity.address.postal_code (required, string) - Zip/Postal Code.
+    + legal_entity.address.state (required, string) - State/County/Province/Region (Two letters)
+    + legal_entity.personal_id_number (required, string) - The ID number of the individual responsible for the account
+    + legal_entity.verification.document (required, string) - A photo (jpg or png) of the front of an identifying document, either a passport or local ID card in the format base64.
+  
++ Request
+    + Headers
+    
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Request (application/json)
+
+        {
+            "legal_entity.dob.day": "12",
+            "legal_entity.dob.month": "12",
+            "legal_entity.dob.year": "1990",
+            "legal_entity.first_name": "Jonh",
+            "legal_entity.last_name": "Doe"
+        }
+                        
++ Response 200 (application/json)
+
+        {
+            "fields": [
+                {
+                    "name": "legal_entity.address.city",
+                    "caption": "City",
+                    "type": "String"
+                },
+                {
+                    "name": "legal_entity.address.line1",
+                    "caption": "Line1",
+                    "type": "String"
+                },
+                {
+                    "name": "legal_entity.address.postal_code",
+                    "caption": "Postalcode",
+                    "type": "String"
+                },
+                {
+                    "name": "legal_entity.address.state",
+                    "caption": "State",
+                    "type": "String"
+                }
+            ],
+            "due_by": null
+        }
+
++ Response 200 (application/json)
+
+        {
+            "fields": [],
+            "due_by": null
+        }
+
+## Professional Payment Accept TOS [/payments/professional/tos]
+
+### Complete Professional Payment Method accepting TOS [POST]
+
+To complete the verification of the bank account accepted the Stripe terms of service is required.
+
+
++ Request
+    + Headers
+    
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Response 200 (application/json)
+
+        {
+            "error": null
+        }
+        
+## Get card [/payments/cards]
+
+### Get the user client card [GET]
+
++ Request
+    + Headers
+    
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Response 200 (application/json)
+
+        [
+            {
+                "_id": "596667f5f0c9fe7d42986e9d",
+                "updatedAt": "2017-07-12T18:18:29.404Z",
+                "createdAt": "2017-07-12T18:18:29.404Z",
+                "user": "5953cd9013a7e048220fff7a",
+                "customerId": "cus_B0r8I6gh8VUEKg",
+                "cardId": "card_1AepPsD3iIZNbHstweXI16B8",
+                "last4": "4242",
+                "__v": 0
+            }
+        ]
+
+## Get bank account [/payments/professionals/accounts]
+
+### Get the user professional bank account [GET]
+
++ Request
+    + Headers
+    
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Response 200 (application/json)
+
+        {
+            "statusCode": 200,
+            "data": {
+                "stripe_account_id": "acct_1Aotr4FfLYW4yLD2",
+                "bank_account": {
+                    "id": "ba_1Aotr4FfLYW4yLD2WJHA8Jfu",
+                    "object": "bank_account",
+                    "account": "acct_1Aotr4FfLYW4yLD2",
+                    "account_holder_name": null,
+                    "account_holder_type": null,
+                    "bank_name": "STRIPE TEST BANK",
+                    "country": "CA",
+                    "currency": "cad",
+                    "default_for_currency": true,
+                    "fingerprint": "9zGWCOksHZ4ptT5P",
+                    "last4": "6789",
+                    "metadata": {},
+                    "routing_number": "11000-000",
+                    "status": "new"
+                },
+                "legal_entity": {
+                    "details": null,
+                    "details_code": null,
+                    "document": "file_1AouFHD3iIZNbHstWNHkVaNq",
+                    "status": "verified"
+                },
+                "account_verification": {
+                    "disabled_reason": null,
+                    "due_by": null,
+                    "fields_needed": []
+                },
+                "balance": {
+                    "object": "balance",
+                    "available": [
+                        {
+                            "currency": "cad",
+                            "amount": 0,
+                            "source_types": {
+                                "card": 0
+                            }
+                        }
+                    ],
+                    "livemode": false,
+                    "pending": [
+                        {
+                            "currency": "cad",
+                            "amount": 0,
+                            "source_types": {
+                                "card": 0
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+
+## Group Reviews
+
+## Reviews Collection [/reviews]
+
+### Create a new review [POST]
+
++ Attributes
+    + userTo (required, string) - User to review.
+    + text (required, string) - Review text.
+    + rate (required, number) - Rate from 0 to 5.
+
++ Request
+    + Headers
+    
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
+            
++ Request (application/json)
+
+        {
+            "userTo": "593129785dcc9118692fec80",
+            "text": "Lorem ipsum dolor sit amet",
+            "rate": 1
+        }
+
++ Response 200 (application/json)
+
+        {
+            "_id": "598b23805675ba19bf3b7be5",
+            "rate": 1,
+            "text": "Lorem ipsum dolor sit amet"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "error": "Please edit existing review instead of creating new one"
+        }
+
+## Get Review by User [/reviews/userTo/{user_id}]
+
+### Get review object [GET]
+
++ Request
+    + Headers
+    
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
+
++ Parameters
+    + user_id (required, string) - User Id
+
+                          
++ Response 200 (application/json)
+
+        {
+            "reviews": [
+                {
+                    "_id": "598b23805675ba19bf3b7be5",
+                    "updatedAt": "2017-08-09T15:00:16.427Z",
+                    "createdAt": "2017-08-09T15:00:16.427Z",
+                    "userTo": "593129785dcc9118692fec80",
+                    "userFrom": "5953cd9013a7e048220fff7a",
+                    "text": "Texto",
+                    "rate": 1,
+                    "__v": 0
+                }
+            ]
+        }
+
+## Get Review [/reviews/{review_id}]
+
+### Get review object [GET]
+
++ Request
+    + Headers
+    
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
+
++ Parameters
+    + review_id (required, string) - Review Id
+
+                          
++ Response 200 (application/json)
+
+        {
+            "__v": 0,
+            "rate": 1,
+            "text": "Texto",
+            "userFrom": "5953cd9013a7e048220fff7a",
+            "userTo": {
+                "user": "593129785dcc9118692fec80",
+                "name": "prooo",
+                "_id": "593129a45dcc9118692fec81"
+            },
+            "createdAt": "2017-08-09T15:00:16.427Z",
+            "updatedAt": "2017-08-09T15:00:16.427Z",
+            "_id": "598b23805675ba19bf3b7be5"
+        }
+
+### Update review object [PUT]
+
++ Attributes
+    + text (required, string) - Review text.
+    + rate (required, number) - Rate from 0 to 5.
+
++ Request
+    + Headers
+    
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
+
++ Parameters
+    + review_id (required, string) - Review Id
+
++ Request (application/json)
+
+        {
+            "text": "Lorem ipsum dolor sit amet",
+            "rate": 1
+        }
+
+                          
++ Response 200 (application/json)
+
+        {
+            "_id": "598b23805675ba19bf3b7be5",
+            "rate": 1,
+            "text": "Texto"
+        }
+
+## Group Chat
+
+## Chat Collection [/chats]
+
+### Create Chat [POST]
+
+
++ Attributes
+    + user (required, string) - User Id
+
++ Request
+    + Headers
+    
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Request (application/json)
+
+        {
+            "user": "5915dc4cfa760929e41bd530"
+        }
+
+                          
++ Response 200 (application/json)
+
+        {
+            "chatId": "598b3d2e5675ba19bf3b7be6"
+        }
+
+### Get chats [GET]
+
++ Request
+    + Headers
+    
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Response 200 (application/json)
+
+        {
+            "inbox": [
+                {
+                    "users": [
+                        {
+                            "role": "Client",
+                            "_id": "5915dc4cfa760929e41bd530",
+                            "name": "ddaws",
+                            "Client": "5915dc55fa760929e41bd531",
+                            "online": false
+                        }
+                    ],
+                    "__v": 0,
+                    "active": true,
+                    "name": "ddaws",
+                    "createdAt": "2017-08-09T16:49:50.167Z",
+                    "updatedAt": "2017-08-09T16:49:50.167Z",
+                    "_id": "598b3d2e5675ba19bf3b7be6",
+                    "hasUnread": false,
+                    "message": {
+                        "read": [],
+                        "__v": 0,
+                        "type": "chat",
+                        "user": {
+                            "role": "Professional",
+                            "_id": "593129785dcc9118692fec80",
+                            "name": "prooo",
+                            "Professional": "593129a45dcc9118692fec81",
+                            "online": false,
+                            "isMe": true
+                        },
+                        "chat": "598b3d2e5675ba19bf3b7be6",
+                        "text": "How are you?",
+                        "createdAt": "2017-08-09T17:18:39.283Z",
+                        "updatedAt": "2017-08-09T17:18:39.283Z",
+                        "_id": "598b43ef5675ba19bf3b7be9"
+                    }
+                },
+                {
+                    "users": [
+                        {
+                            "role": "Client",
+                            "_id": "5915dc4cfa760929e41bd530",
+                            "name": "ddaws",
+                            "Client": "5915dc55fa760929e41bd531",
+                            "online": false
+                        },
+                        {
+                            "role": "Client",
+                            "_id": "5915dfefb05e5e2a2ef6a5e3",
+                            "name": "ghddfg",
+                            "Client": "5915dfffb05e5e2a2ef6a5e4",
+                            "online": false
+                        }
+                    ],
+                    "__v": 0,
+                    "active": true,
+                    "name": "Group",
+                    "createdAt": "2017-08-09T17:01:40.324Z",
+                    "updatedAt": "2017-08-09T17:01:40.324Z",
+                    "_id": "598b3ff45675ba19bf3b7be7",
+                    "message": {},
+                    "hasUnread": false
+                },
+                {
+                    "users": [
+                        {
+                            "role": "Client",
+                            "_id": "5953cd9013a7e048220fff7a",
+                            "avatar": "",
+                            "name": "John Doe 2",
+                            "Client": "5953cda913a7e048220fff7b",
+                            "online": false
+                        }
+                    ],
+                    "__v": 0,
+                    "name": "John Doe 2",
+                    "createdAt": "2017-07-17T15:12:11.693Z",
+                    "updatedAt": "2017-07-17T15:12:11.693Z",
+                    "_id": "596cd3cbea31562d5676aea3",
+                    "hasUnread": true,
+                    "message": {
+                        "read": [],
+                        "__v": 0,
+                        "user": {
+                            "role": "Professional",
+                            "_id": "593129785dcc9118692fec80",
+                            "name": "prooo",
+                            "Professional": "593129a45dcc9118692fec81",
+                            "online": false,
+                            "isMe": true
+                        },
+                        "chat": "596cd3cbea31562d5676aea3",
+                        "buttonName": "Summary",
+                        "object": "contract",
+                        "link": "598a3774eee2a3057ff2e5c8",
+                        "type": "notification",
+                        "text": "You received a proposal from undefined. Loren ipsum...",
+                        "createdAt": "2017-08-08T22:13:08.664Z",
+                        "updatedAt": "2017-08-08T22:13:08.664Z",
+                        "_id": "598a3774eee2a3057ff2e5c9"
+                    }
+                }
+            ]
+        }
+
+
+## Add user to chat [/chats/user]
+
+### Add user to chat [POST]
+
++ Attributes
+    + user (required, string) - User Id
+    + chat (required, string) - Chat Id
+    + new (required, boolean) - Create new chat or add user to selected chat
+
++ Request
+    + Headers
+    
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
+
++ Request (application/json)
+
+        {
+            "user": "5915dfefb05e5e2a2ef6a5e3",
+            "chat": "598b3d2e5675ba19bf3b7be6",
+            "new": true
+        }
+
+
++ Response 200 (application/json)
+
+        {
+            "chat": {
+                "__v": 0,
+                "updatedAt": "2017-08-09T17:01:40.324Z",
+                "createdAt": "2017-08-09T17:01:40.324Z",
+                "name": "ddaws, ghddfg, prooo",
+                "active": true,
+                "_id": "598b3ff45675ba19bf3b7be7",
+                "users": [
+                    "593129785dcc9118692fec80",
+                    "5915dfefb05e5e2a2ef6a5e3"
+                ]
+            }
+        }
+
+## Add message to chat [/chats/message]
+
+### Create message [POST]
+
++ Attributes
+    + chat (required, string) - Chat Id
+    + text (required, string) - Message
+
++ Request
+    + Headers
+    
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
+
++ Request (application/json)
+
+        {
+            "text": "How are you?",
+            "chat": "598b3d2e5675ba19bf3b7be6"
+        }
+
+
++ Response 200 (application/json)
+
+        {
+            "message": {
+                "read": [],
+                "_id": "598b43ef5675ba19bf3b7be9",
+                "type": "chat",
+                "user": {
+                "email": "prooo@mail.com",
+                    "_id": "593129785dcc9118692fec80",
+                    "name": "prooo",
+                    "Professional": "593129a45dcc9118692fec81"
+                },
+                "chat": "598b3d2e5675ba19bf3b7be6",
+                "text": "How are you?",
+                "createdAt": "2017-08-09T17:18:39.283Z",
+                "updatedAt": "2017-08-09T17:18:39.283Z",
+                "__v": 0
+            }
+        }
+  
++ Response 422 (application/json)
+
+        {
+            "statusCode": 422,
+            "error": "Validations errors",
+            "data": {
+                "success": false,
+                "errors": [
+                    {
+                        "field": "chat",
+                        "message": "The field chat is required"
+                    },
+                    {
+                        "field": "text",
+                        "message": "The field text is required"
+                    }
+                ]
+            }
+        }
+        
+## Chat [/chats/{chat_id}]
+
+### Get chat details [GET]
+
+
++ Parameters
+    + chat_id (required, string) - Chat Id
+
++ Request
+    + Headers
+    
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
+
++ Response 200 (application/json)
+
+        {
+            "users": [
+                {
+                    "role": "Client",
+                    "_id": "5915dc4cfa760929e41bd530",
+                    "name": "ddaws",
+                    "Client": "5915dc55fa760929e41bd531",
+                    "online": false
+                }
+            ],
+            "__v": 0,
+            "active": true,
+            "name": "ddaws",
+            "createdAt": "2017-08-09T16:49:50.167Z",
+            "updatedAt": "2017-08-09T16:49:50.167Z",
+            "_id": "598b3d2e5675ba19bf3b7be6",
+            "hasUnread": false,
+            "messages": [
+                {
+                    "read": [],
+                    "__v": 0,
+                    "type": "chat",
+                    "user": {
+                        "role": "Professional",
+                        "_id": "593129785dcc9118692fec80",
+                        "name": "prooo",
+                        "Professional": "593129a45dcc9118692fec81",
+                        "online": false,
+                        "isMe": true
+                    },
+                    "chat": "598b3d2e5675ba19bf3b7be6",
+                    "text": "How are you?",
+                    "createdAt": "2017-08-09T17:18:39.283Z",
+                    "updatedAt": "2017-08-09T17:18:39.283Z",
+                    "_id": "598b43ef5675ba19bf3b7be9"
+                },
+                {
+                    "read": [],
+                    "__v": 0,
+                    "type": "chat",
+                    "user": {
+                        "role": "Professional",
+                        "_id": "593129785dcc9118692fec80",
+                        "name": "prooo",
+                        "Professional": "593129a45dcc9118692fec81",
+                        "online": false,
+                        "isMe": true
+                    },
+                    "chat": "598b3d2e5675ba19bf3b7be6",
+                    "text": "asdada",
+                    "createdAt": "2017-08-09T17:18:22.086Z",
+                    "updatedAt": "2017-08-09T17:18:22.086Z",
+                    "_id": "598b43de5675ba19bf3b7be8"
+                }
+            ]
+        }
+
+### Delete chat [DELETE]
+
++ Parameters
+    + chat_id (required, string) - Chat Id
+
++ Request
+    + Headers
+    
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Response 200 (application/json)
+
+        {
+            "error": null
+        }
+
+
+
+## Chat Status [/chats/read/{chat_id}]
+
+### Set Chat as read [POST]
+
+
++ Parameters
+    + chat_id (required, string) - Chat Id
+
++ Request
+    + Headers
+    
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
+
++ Response 200 (application/json)
+
+        {
+            "error": null,
+            "result": {
+                "ok": 1,
+                "nModified": 2,
+                "n": 2
+            }
+        }
+
+## Group User
+
+## My Clients [/users/clients]
+
+### Get my Clients [GET]
+
++ Attributes
+    + month (optional, number) - Number of the month (from 0 to 11)
+    + year (optional, number) - Year
+    + day (optional, string) - Formatted ddd (Mon, Tue...)
+    + name (optional, string) - Search case insensitive 
+    + group (optional, boolean) - Group by profession
+
++ Request
+    + Headers
+    
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Response 200 (application/json)
+
+        [
+            {
+                "_id": "5952fc9e0f5cf812024ffbb0",
+                "client": {
+                    "_id": "5915dc55fa760929e41bd531",
+                    "name": "ddaws",
+                    "user": "5915dc4cfa760929e41bd530"
+                },
+                "profession": {
+                    "_id": "5922e22846d4b14fec273721",
+                    "updatedAt": "2017-05-22T13:05:44.004Z",
+                    "createdAt": "2017-05-22T13:05:44.004Z",
+                    "name": "Manager",
+                    "__v": 0,
+                    "original": false,
+                    "certification": [],
+                    "icon": "/Assets/images/sport.png",
+                    "color": "#000000"
+                },
+                "sessionsTotal": 1,
+                "sessionsPast": 1,
+                "review": false
+            },
+            {
+                "_id": "5953039c2d4b561b322e71c3",
+                "client": {
+                    "_id": "5915dc55fa760929e41bd531",
+                    "name": "ddaws",
+                    "user": "5915dc4cfa760929e41bd530"
+                },
+                "profession": {
+                    "_id": "5922e22846d4b14fec273721",
+                    "updatedAt": "2017-05-22T13:05:44.004Z",
+                    "createdAt": "2017-05-22T13:05:44.004Z",
+                    "name": "Manager",
+                    "__v": 0,
+                    "original": false,
+                    "certification": [],
+                    "icon": "/Assets/images/sport.png",
+                    "color": "#000000"
+                },
+                "sessionsTotal": 1,
+                "sessionsPast": 1,
+                "review": false
+            }
+        ]
+
+## My Professional [/users/professionals]
+
+### Get my Professional [GET]
+
++ Attributes
+    + month (optional, number) - Number of the month (from 0 to 11)
+    + year (optional, number) - Year
+    + day (optional, string) - Formatted ddd (Mon, Tue...)
+    + name (optional, string) - Search case insensitive 
+    + group (optional, boolean) - Group by profession
+
++ Request
+    + Headers
+    
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Response 200 (application/json)
+
+        [
+            {
+                "profession": {
+                    "_id": "5922e22846d4b14fec273721",
+                    "name": "Manager",
+                    "color": "#000000"
+                },
+                "contracts": [
+                    {
+                        "_id": "596e4eaec157cc1b25391aa6",
+                        "professional": {
+                            "_id": "593129a45dcc9118692fec81",
+                            "name": "prooo",
+                            "profession": {
+                                "_id": "5922e22846d4b14fec273721",
+                                "name": "Manager",
+                                "color": "#000000"
+                            },
+                            "user": "593129785dcc9118692fec80"
+                        },
+                        "sessionsTotal": 2,
+                        "sessionsPast": 2,
+                        "review": "598b23805675ba19bf3b7be5"
+                    },
+                    {
+                        "_id": "596e4eb0c157cc1b25391aaa",
+                        "professional": {
+                            "_id": "593129a45dcc9118692fec81",
+                            "name": "prooo",
+                            "profession": {
+                                "_id": "5922e22846d4b14fec273721",
+                                "name": "Manager",
+                                "color": "#000000"
+                            },
+                            "user": "593129785dcc9118692fec80"
+                        },
+                        "sessionsTotal": 2,
+                        "sessionsPast": 2,
+                        "review": "598b23805675ba19bf3b7be5"
+                    },
+                    {
+                        "_id": "596e4eb2c157cc1b25391aae",
+                        "professional": {
+                            "_id": "593129a45dcc9118692fec81",
+                            "name": "prooo",
+                            "profession": {
+                                "_id": "5922e22846d4b14fec273721",
+                                "name": "Manager",
+                                "color": "#000000"
+                            },
+                            "user": "593129785dcc9118692fec80"
+                        },
+                        "sessionsTotal": 2,
+                        "sessionsPast": 2,
+                        "review": "598b23805675ba19bf3b7be5"
+                    },
+                    {
+                        "_id": "596e4eb3c157cc1b25391ab2",
+                        "professional": {
+                            "_id": "593129a45dcc9118692fec81",
+                            "name": "prooo",
+                            "profession": {
+                                "_id": "5922e22846d4b14fec273721",
+                                "name": "Manager",
+                                "color": "#000000"
+                            },
+                            "user": "593129785dcc9118692fec80"
+                        },
+                        "sessionsTotal": 2,
+                        "sessionsPast": 2,
+                        "review": "598b23805675ba19bf3b7be5"
+                    },
+                    {
+                        "_id": "597284513a51d815fce4c724",
+                        "professional": {
+                            "_id": "593129a45dcc9118692fec81",
+                            "name": "prooo",
+                            "profession": {
+                                "_id": "5922e22846d4b14fec273721",
+                                "name": "Manager",
+                                "color": "#000000"
+                            },
+                            "user": "593129785dcc9118692fec80"
+                        },
+                        "sessionsTotal": 2,
+                        "sessionsPast": 2,
+                        "review": "598b23805675ba19bf3b7be5"
+                    }
+                ]
+            }
+        ]
+
+## Change language [/users/language]
+
+### Change language [PUT]
+
++ Attributes
+    + language (required, string) - Language code
+
++ Request
+    + Headers
+    
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Response 200 (application/json)
+
+        {
+            "error": null
+        }
+
+
+## Get Address [/users/location]
+
+### Get address from latitude and longitude [GET]
+
++ Attributes
+    + latitude (required, number) - Latitude
+    + longitude (required, number) - Longitude
+
++ Request
+    + Headers
+    
+            Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
+
++ Response 200 (application/json)
+
+        {
+            "address": {
+                "formattedAddress": "2140 Eglinton Ave W, York, ON M6E 2K8, Canada",
+                "latitude": 43.6938527,
+                "longitude": -79.4593029,
+                "extra": {
+                    "googlePlaceId": "ChIJPQBVqPozK4gRHbcdADPuzlc",
+                    "confidence": 1,
+                    "premise": null,
+                    "subpremise": null,
+                    "neighborhood": "Eglinton West",
+                    "establishment": null
+                },
+                "administrativeLevels": {
+                    "level2long": "Toronto Division",
+                    "level2short": "Toronto Division",
+                    "level1long": "Ontario",
+                    "level1short": "ON"
+                },
+                "streetNumber": "2140",
+                "streetName": "Eglinton Avenue West",
+                "city": "Toronto",
+                "country": "Canada",
+                "countryCode": "CA",
+                "zipcode": "M6E 2K8",
+                "provider": "google"
+            }
+        }
