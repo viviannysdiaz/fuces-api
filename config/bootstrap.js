@@ -11,14 +11,14 @@
 
 module.exports.bootstrap = function(cb) {
 
-  User.create({
-    name: 'Gisselle Diaz',
-    email: 'user@email.com',
-    password: '123456',
-    avatar: 'http://www.tum.ac.ke/assets/images/avatar.png'
-  }).then(user => {
-    sails.log(user);
-  });
+  // User.create({
+  //   name: 'Gisselle Diaz',
+  //   email: 'user@email.com',
+  //   password: '123456',
+  //   avatar: 'http://www.tum.ac.ke/assets/images/avatar.png'
+  // }).then(user => {
+  //   sails.log(user);
+  // });
 
   // Course.create({
   //   title: 'Abono Orgánico',

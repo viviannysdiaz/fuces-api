@@ -24,6 +24,9 @@ module.exports = {
       type: 'string',
       required: true
     },
+    parish: {
+      type: 'string'
+    },
     state: {
       type: 'string',
       required: true
