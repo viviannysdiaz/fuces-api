@@ -1,14 +1,14 @@
 FORMAT: 1A
 HOST: http://localhost:3000/api/
 
-# Flaxpro API
+# FUCES API
 
-Flaxpro API for mobile app.
+FUCES API for mobile app.
 
 ## Allowed HTTPs requests
 
 + PUT     : Update resource
-+ POST    : To create resource  
++ POST    : To create resource
 + GET     : Get a resource or list of resources
 + DELETE  : To delete resource
 
@@ -36,7 +36,7 @@ Create new users in the platform. It takes a JSON object containing the user inf
     + email (required, string) - Email of the user in the form of a string
     + password (required, string) - Password of the user in the form of a string
     + isProfessional (boolean, optional)  - Set this parameter to true if the user will be registered as a Professional
-    
+
 
 + Request (application/json)
 
@@ -125,7 +125,7 @@ Login a user with a valid credentials. Returns session data and the user informa
                 "longitude": -79.3827237
             }
         }
-    
+
 
 + Response 401 (application/json)
 
@@ -187,7 +187,7 @@ Returns session data and the user information if exist.
                 }
             }
         }
-    
+
 
 + Response 401 (application/json)
 
@@ -215,7 +215,7 @@ Send a link to the email to recover the password.
         {
             "message": "Please check your email for the link to reset your password."
         }
-        
+
 
 + Response 422 (application/json)
 
@@ -243,7 +243,7 @@ Reset user password.
         {
             "message": "Password changed successfully. Please login with your new password."
         }
-        
+
 
 + Response 422 (application/json)
 
@@ -271,7 +271,7 @@ Update user password.
         {
             "message": "Password changed successfully."
         }
-        
+
 
 + Response 302 (application/json)
 
@@ -343,7 +343,7 @@ Create the client information that belong to the current logged user.
                 }
             }
         }
-      
+
 
 ### List all clients [GET]
 
@@ -462,7 +462,7 @@ A single Client object with all its details
                 "role": "Client"
             }
         }
-      
+
 
 ### Update a client [PUT]
 
@@ -614,7 +614,7 @@ Create the professional information that belong to the current logged user.
                 }
             }
         }
-      
+
 
 ### List all Professionals [GET]
 
@@ -792,7 +792,7 @@ A single Professional object with all its details
                 "role": "Professional"
             }
         }
-      
+
 
 ### Update a client [PUT]
 
@@ -891,7 +891,7 @@ Update a single Client object.
                 }
             }
         }
-        
+
 + Response 400 (application/json)
 
         {
@@ -952,7 +952,7 @@ Get a list of professions.
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 + Response 200 (application/json)
-        
+
         {
             "professions": [
                 {
@@ -1014,7 +1014,7 @@ Create a new schedule.
 
 + Request (application/json)
 
-        {    
+        {
             "schedules": [
               {
                 "from":"Sat Jun 24 2017 10:00:00 GMT+0300(MSK)",
@@ -1053,7 +1053,7 @@ Create a new schedule.
 
 + Request (application/json)
 
-        {    
+        {
             "schedules": [
               {
                 "from":"Sat Jun 24 2017 10:00:00 GMT+0300(MSK)",
@@ -1118,7 +1118,7 @@ Create a new schedule.
             }
         ]
 
-      
+
 ## Client Schedules Collections [/schedules/client/{client_id}]
 
 ### Get schedule for client [GET]
@@ -1167,7 +1167,7 @@ Create a new schedule.
     + schedules (required, array) - Array of schedules in the form of [{from: date, to: date}]
     + location (required, string) - Values allowed (address/client/professional)
     + address (optional, string) - This parameter will be required if location is address
-  
+
 
 + Request
     + Headers
@@ -1209,7 +1209,7 @@ Create a new schedule.
                 }
             ]
         }
-        
+
 + Response 422 (application/json)
 
         {
@@ -1245,7 +1245,7 @@ Create a new schedule.
 
 + Request
     + Headers
-    
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 + Response 200 (application/json)
@@ -1310,7 +1310,7 @@ Create a new schedule.
                 "_id": "596e4eb0c157cc1b25391aa9"
             }
         ]
-        
+
 
 ## Client Sessions [/sessions/client/{client_id}]
 
@@ -1324,7 +1324,7 @@ Create a new schedule.
 
 + Request
     + Headers
-        
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 + Response 200 (application/json)
@@ -1386,7 +1386,7 @@ Create a new schedule.
                 ]
               }
             ]
-    
+
 + Response 200 (application/json)
 
         [
@@ -1442,7 +1442,7 @@ Create a new schedule.
             }
         ]
 
-    
+
 + Response 422 (application/json)
 
         {
@@ -1471,7 +1471,7 @@ Create a new schedule.
 
 + Request
     + Headers
-    
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 + Response 200 (application/json)
@@ -1542,7 +1542,7 @@ Create a new schedule.
             }
         ]
 
-    
+
 + Response 200 (application/json)
 
         [
@@ -1604,8 +1604,8 @@ Create a new schedule.
             }
         ]
 
-    
-    
+
+
 + Response 422 (application/json)
 
         {
@@ -1633,7 +1633,7 @@ Make an offer or hire an user
 
 + Attributes
     + userTo (required, string) - User Id to make offer
-    + sessions (required, array) - Array of schedules in the form of [{from: date, to: date}] 
+    + sessions (required, array) - Array of schedules in the form of [{from: date, to: date}]
     + numberOfPeople (required, number) - Number of people in each session
     + paymentMethod (optional, string) - Values allowed ('cash', 'card', 'giftcard')
     + rate (required, number) - Rate for contract
@@ -1641,7 +1641,7 @@ Make an offer or hire an user
 
 + Request
     + Headers
-    
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 + Request (application/json)
@@ -1656,7 +1656,7 @@ Make an offer or hire an user
             "paymentMethod": "card",
             "rate": 200
         }
-        
+
 + Response 200 (application/json)
 
         {
@@ -1665,7 +1665,7 @@ Make an offer or hire an user
                 {
                     "from": "2017-12-30",
                     "to": "2017-12-31"
-                }, 
+                },
                 {
                     "from": "2017-12-30",
                     "to": "2017-12-31"
@@ -1708,7 +1708,7 @@ Make an offer or hire an user
                 ]
             }
         }
-        
+
 ## Contract [/contracts/{contract_id}]
 
 ### Get a single Contract [GET]
@@ -1721,7 +1721,7 @@ Get contract information
 
 + Request
     + Headers
-    
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 + Response 200 (application/json)
@@ -1859,7 +1859,7 @@ Get contract information
         {
             "error": "Failed to get contract"
         }
-        
+
 
 ### Reply to offer/hire [POST]
 
@@ -1875,7 +1875,7 @@ After a contract is created the user must accept or decline the offer/hire
 
 + Request
     + Headers
-    
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 
@@ -1885,7 +1885,7 @@ After a contract is created the user must accept or decline the offer/hire
             "accept": true,
             "paymentMethod": "card"
         }
-        
+
 + Response 200 (application/json)
 
         {
@@ -1921,7 +1921,7 @@ Only the professional can cancel a contract.
 
 + Request
     + Headers
-    
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 + Response 200 (application/json)
@@ -1950,7 +1950,7 @@ If the refund request is made by a professional is approved immediately, otherwi
 
 + Request
     + Headers
-    
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 + Response 200 (application/json)
@@ -1968,7 +1968,7 @@ If the refund request is made by a professional is approved immediately, otherwi
                 "_id": "598a3549eee2a3057ff2e5bf"
             }
         }
-    
+
 + Response 200 (application/json)
 
         {
@@ -2018,7 +2018,7 @@ The professional can approved/declined the contract refund
 
 + Request
     + Headers
-    
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 + Response 200 (application/json)
@@ -2048,7 +2048,7 @@ The professional can approved/declined the contract refund
                 }
             }
         }
-    
+
 + Response 200 (application/json)
 
         {
@@ -2068,11 +2068,11 @@ The professional can approved/declined the contract refund
 
 
 + Response 403 (application/json)
-    
+
         {
             "error": "You are not allowed to change status"
         }
-    
+
 + Response 422 (application/json)
 
         {
@@ -2106,7 +2106,7 @@ Create a new card and associate to the client user
 
 + Request
     + Headers
-    
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 + Request (application/json)
@@ -2117,7 +2117,7 @@ Create a new card and associate to the client user
             "cvc": "123",
             "expYear": "2020"
         }
-                    
+
 + Response 200 (application/json)
 
         {
@@ -2130,7 +2130,7 @@ Create a new card and associate to the client user
             "last4": "4242",
             "_id": "598aff2a5675ba19bf3b7be3"
         }
-    
+
 + Response 422 (application/json)
 
         {
@@ -2171,10 +2171,10 @@ Create a new bank account and associate to the professional user. This should re
     + routing_number (required, string) - The bank routing number (e.g., 11000-000).
     + currency (required, string) - Three character currency code (e.g., CAD).
 
-  
+
 + Request
     + Headers
-    
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 + Request (application/json)
@@ -2184,7 +2184,7 @@ Create a new bank account and associate to the professional user. This should re
             "routing_number": "11000-000",
             "currency": "CAD"
         }
-                        
+
 + Response 200 (application/json)
 
         {
@@ -2227,7 +2227,7 @@ Create a new bank account and associate to the professional user. This should re
                 "_id": "598b084b5675ba19bf3b7be4"
             }
         }
-    
+
 + Response 422 (application/json)
 
         {
@@ -2276,10 +2276,10 @@ To complete the registration of the bank account identity verification is requir
     + legal_entity.address.state (required, string) - State/County/Province/Region (Two letters)
     + legal_entity.personal_id_number (required, string) - The ID number of the individual responsible for the account
     + legal_entity.verification.document (required, string) - A photo (jpg or png) of the front of an identifying document, either a passport or local ID card in the format base64.
-  
+
 + Request
     + Headers
-    
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 + Request (application/json)
@@ -2291,7 +2291,7 @@ To complete the registration of the bank account identity verification is requir
             "legal_entity.first_name": "Jonh",
             "legal_entity.last_name": "Doe"
         }
-                        
+
 + Response 200 (application/json)
 
         {
@@ -2336,7 +2336,7 @@ To complete the verification of the bank account accepted the Stripe terms of se
 
 + Request
     + Headers
-    
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 + Response 200 (application/json)
@@ -2344,14 +2344,14 @@ To complete the verification of the bank account accepted the Stripe terms of se
         {
             "error": null
         }
-        
+
 ## Get card [/payments/cards]
 
 ### Get the user client card [GET]
 
 + Request
     + Headers
-    
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 + Response 200 (application/json)
@@ -2375,7 +2375,7 @@ To complete the verification of the bank account accepted the Stripe terms of se
 
 + Request
     + Headers
-    
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 + Response 200 (application/json)
@@ -2449,10 +2449,10 @@ To complete the verification of the bank account accepted the Stripe terms of se
 
 + Request
     + Headers
-    
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
-            
+
 + Request (application/json)
 
         {
@@ -2481,14 +2481,14 @@ To complete the verification of the bank account accepted the Stripe terms of se
 
 + Request
     + Headers
-    
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 
 + Parameters
     + user_id (required, string) - User Id
 
-                          
+
 + Response 200 (application/json)
 
         {
@@ -2512,14 +2512,14 @@ To complete the verification of the bank account accepted the Stripe terms of se
 
 + Request
     + Headers
-    
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 
 + Parameters
     + review_id (required, string) - Review Id
 
-                          
+
 + Response 200 (application/json)
 
         {
@@ -2545,7 +2545,7 @@ To complete the verification of the bank account accepted the Stripe terms of se
 
 + Request
     + Headers
-    
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 
@@ -2559,7 +2559,7 @@ To complete the verification of the bank account accepted the Stripe terms of se
             "rate": 1
         }
 
-                          
+
 + Response 200 (application/json)
 
         {
@@ -2580,7 +2580,7 @@ To complete the verification of the bank account accepted the Stripe terms of se
 
 + Request
     + Headers
-    
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 + Request (application/json)
@@ -2589,7 +2589,7 @@ To complete the verification of the bank account accepted the Stripe terms of se
             "user": "5915dc4cfa760929e41bd530"
         }
 
-                          
+
 + Response 200 (application/json)
 
         {
@@ -2600,7 +2600,7 @@ To complete the verification of the bank account accepted the Stripe terms of se
 
 + Request
     + Headers
-    
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 + Response 200 (application/json)
@@ -2723,7 +2723,7 @@ To complete the verification of the bank account accepted the Stripe terms of se
 
 + Request
     + Headers
-    
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 
@@ -2763,7 +2763,7 @@ To complete the verification of the bank account accepted the Stripe terms of se
 
 + Request
     + Headers
-    
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 
@@ -2795,7 +2795,7 @@ To complete the verification of the bank account accepted the Stripe terms of se
                 "__v": 0
             }
         }
-  
+
 + Response 422 (application/json)
 
         {
@@ -2815,7 +2815,7 @@ To complete the verification of the bank account accepted the Stripe terms of se
                 ]
             }
         }
-        
+
 ## Chat [/chats/{chat_id}]
 
 ### Get chat details [GET]
@@ -2826,7 +2826,7 @@ To complete the verification of the bank account accepted the Stripe terms of se
 
 + Request
     + Headers
-    
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 
@@ -2896,7 +2896,7 @@ To complete the verification of the bank account accepted the Stripe terms of se
 
 + Request
     + Headers
-    
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 + Response 200 (application/json)
@@ -2917,7 +2917,7 @@ To complete the verification of the bank account accepted the Stripe terms of se
 
 + Request
     + Headers
-    
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 
@@ -2942,12 +2942,12 @@ To complete the verification of the bank account accepted the Stripe terms of se
     + month (optional, number) - Number of the month (from 0 to 11)
     + year (optional, number) - Year
     + day (optional, string) - Formatted ddd (Mon, Tue...)
-    + name (optional, string) - Search case insensitive 
+    + name (optional, string) - Search case insensitive
     + group (optional, boolean) - Group by profession
 
 + Request
     + Headers
-    
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 + Response 200 (application/json)
@@ -3007,12 +3007,12 @@ To complete the verification of the bank account accepted the Stripe terms of se
     + month (optional, number) - Number of the month (from 0 to 11)
     + year (optional, number) - Year
     + day (optional, string) - Formatted ddd (Mon, Tue...)
-    + name (optional, string) - Search case insensitive 
+    + name (optional, string) - Search case insensitive
     + group (optional, boolean) - Group by profession
 
 + Request
     + Headers
-    
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 + Response 200 (application/json)
@@ -3118,7 +3118,7 @@ To complete the verification of the bank account accepted the Stripe terms of se
 
 + Request
     + Headers
-    
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 + Response 200 (application/json)
@@ -3138,7 +3138,7 @@ To complete the verification of the bank account accepted the Stripe terms of se
 
 + Request
     + Headers
-    
+
             Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTRiZGNkOTliMWJiNjJjZjU3ODlmZWEiLCJlbWFpbCI6InZpdmlhbm55c2RpYXN6dkBnbWFpbC5jb20iLCJyb2xlIjoiQ2xpZW50IiwiaWF0IjoxNDk4MTQzOTYxLCJleHAiOjE0OTgxNDQ1NjF9.j8HSW7Gw-6ryn5V1aHeTNyMQN0OmZsfcNaPng6IUUV0
 
 + Response 200 (application/json)
